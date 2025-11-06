@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Editar Cotação #{{ cotacao.proposta_id_url }}{% endblock %}
+
+{% block page_title %}Editar Cotação #{{ cotacao.proposta_id_url }}{% endblock %}
+
+{% block page_css %}
+<style>
+    .ti-brand-whatsapp::before { content: "\eec5" !important; }
+    
+    /* Esta classe, aplicada na linha, colore TODOS os campos de verde claro */
+    .status-linha-aprovada .form-control,
+    .status-linha-aprovada .form-select {
+        background-color: #e9f5e9 !important; 
+        color: #212529 !important; 
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}{% if filtrar_status %}?filtrar_status={{ filtrar_status|urlencode }}{% endif %}" enctype="multipart/form-data" novalidate id="cotacaoForm">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ cotacao.proposta_id_url }}">
+
+    <div class="row g-4 {% if cotacao.status_cotacao == 'Finalizada' or cotacao.status_cotacao == 'Aprovada' %}status-linha-aprovada{% endif %}">
+
+        <div class="col-lg-3 order-lg-1">
+            <div class="position-sticky" style="top: 80px;">
+                <div class="d-flex flex-column gap-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Ações Principais</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="submit" class="btn btn-primary"><i class="ti ti-device-floppy me-1"></i> Salvar Alterações</button>
+                                <a href="{% url 'quoteflow:duplicar_cotacao' cotacao.proposta_id_url %}" class="btn btn-secondary btn-action-spinner"><i class="ti ti-copy me-1"></i> Duplicar Cotação</a>
+                                <a href="{% url 'quoteflow:enviar_cotacao' cotacao.proposta_id_url %}" class="btn btn-success btn-action-spinner"><i class="ti ti-send me-1"></i> Enviar Proposta</a>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                {% if anterior %}
+                                    <a href="{% url 'quoteflow:cotacao_edit' anterior.proposta_id_url %}{% if filtrar_status %}?filtrar_status={{ filtrar_status|urlencode }}{% endif %}" class="btn btn-sm btn-outline-secondary anterior-link btn-action-spinner">← Anterior</a>
+                                {% else %}
+                                    <span class="btn btn-sm btn-outline-secondary disabled">← Anterior</span>
+                                {% endif %}
+                                {% if proxima %}
+                                    <a href="{% url 'quoteflow:cotacao_edit' proxima.proposta_id_url %}{% if filtrar_status %}?filtrar_status={{ filtrar_status|urlencode }}{% endif %}" class="btn btn-sm btn-outline-secondary proxima-link btn-action-spinner">Próxima →</a>
+                                {% else %}
+                                    <span class="btn btn-sm btn-outline-secondary disabled">Próxima →</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 order-lg-2">
+            <div class="d-flex flex-column gap-4">
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Dados do Cliente e Frete</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Tipo de Frete</label>{{ form.tipo_frete|add_class:"form-select" }}</div>
+                            <div class="col-md-6"><label class="form-label">Contato</label>{{ form.contato|add_class:"form-control" }}</div>
+                            <div class="col-md-6">
+                                <label class="form-label">Telefone</label>
+                                <div class="input-group">
+                                    {{ form.telefone|add_class:"form-control" }}
+                                    {% if form.telefone.value or cotacao.telefone %}
+                                    <a href="{% url 'quoteflow:enviar_apenas_whatsapp' cotacao.proposta_id_url %}" class="btn btn-success btn-action-spinner" title="Enviar Proposta por WhatsApp">
+                                        <i class="ti ti-brand-whatsapp"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <div class="input-group">
+                                    {{ form.email|add_class:"form-control" }}
+                                    <a href="{% url 'quoteflow:enviar_apenas_email' cotacao.proposta_id_url %}" class="btn btn-primary btn-action-spinner" title="Enviar Proposta por Email"><i class="ti ti-mail"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Origem e Destino</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.origem.id_for_label }}">Origem</label>
+                                <div class="input-group">
+                                    {{ form.origem|add_class:"form-control"|attr:"id:inputOrigem" }}
+                                    <button type="button" class="btn btn-primary" id="btnAbrirMapa" title="Abrir rota no Google Maps"><i class="ti ti-map-pin"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="{{ form.destino.id_for_label }}">Destino</label>
+                                {{ form.destino|add_class:"form-control"|attr:"id:inputDestino" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Detalhes da Carga</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="form-label">Nº Itens</label>{{ form.volumes|add_class:"form-control" }}</div>
+                            <div class="col-md-3"><label class="form-label">Peso (KG)</label>{{ form.peso|add_class:"form-control" }}</div>
+                            <div class="col-md-3">
+                                <label class="form-label">Valor NF (R$)</label>
+                                <div class="input-group"><span class="input-group-text">R$</span>{{ form.valor_mercadoria|add_class:"form-control" }}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Cubagem (M³)</label>
+                                <div class="input-group">
+                                    {{ form.cubagem|add_class:"form-control" }}
+                                    <a href="{% url 'quoteflow:solicitar_medidas' cotacao.proposta_id_url %}" class="btn btn-primary btn-action-spinner" title="Solicitar Medidas"><i class="ti ti-ruler-2"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="form-label">Descrição / Medidas</label>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mb-1" data-bs-toggle="modal" data-bs-target="#cubagemModal"><i class="ti ti-calculator"></i> Calcular</button>
+                                </div>
+                                {{ form.observacao|add_class:"form-control" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 order-lg-3">
+            <div class="position-sticky" style="top: 80px;">
+                <div class="d-flex flex-column gap-4">
+                    <div class="card">
+                        <div class="card-header"><h5 class="card-title">Status e Prazos</h5></div>
+                        <div class="card-body">
+                            <div class="mb-3"><label class="form-label">Rastreio</label>{{ form.rastreio|add_class:"form-select" }}</div>
+                            <div class="mb-3">
+                                <label class="form-label">Status Cotação</label>
+                                <div class="input-group">
+                                    {{ form.status_cotacao|add_class:"form-select" }}
+                                    <button type="button" class="btn btn-success" onclick="salvarCotacaoInstantanea(event, 'Aprovada')" title="Aprovar e Salvar na Hora"><i class="ti ti-check"></i></button>
+                                    <button type="button" class="btn btn-danger" onclick="salvarCotacaoInstantanea(event, 'Reprovada')" title="Reprovar e Salvar na Hora"><i class="ti ti-x"></i></button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status Envio</label>
+                                {{ form.status_envio|add_class:"form-select" }}
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Prazo Coleta</label>
+                                <div class="input-group">
+                                    <button class="btn btn-outline-primary decrement-prazo-coleta" type="button"><i class="ti ti-minus"></i></button>
+                                    {{ form.prazo_coleta|add_class:"form-control text-center" }}
+                                    <button class="btn btn-outline-primary increment-prazo-coleta" type="button"><i class="ti ti-plus"></i></button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Prazo Entrega</label>
+                                <div class="input-group">
+                                    <button class="btn btn-outline-primary decrement-prazo-entrega" type="button"><i class="ti ti-minus"></i></button>
+                                    {{ form.prazo_entrega|add_class:"form-control text-center" }}
+                                    <button class="btn btn-outline-primary increment-prazo-entrega" type="button"><i class="ti ti-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h5 class="card-title">Financeiro</h5></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">Valor Frete (R$)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">R$</span>
+                                    {{ form.valor_proposta|add_class:"form-control" }}
+                                    {% if user.perfil.empresa.usa_ia_precificacao %}
+                                        <button type="button" class="btn btn-info" id="btn-sugerir-preco" data-cotacao-id="{{ cotacao.proposta_id_url }}" title="Sugerir Preço com IA"><i class="ti ti-wand"></i> IA</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSolicitarPagamento"><i class="ti ti-cash me-1"></i> Solicitar Pagamento</button>
+                                <a href="{% url 'quoteflow:enviar_solicitacao_coleta' cotacao.proposta_id_url %}" class="btn btn-outline-secondary btn-action-spinner"><i class="ti ti-box me-1"></i> Solicitar Coleta</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% include 'parciais/_modal_pagamento.html' %}
+<div class="modal fade" id="cubagemModal" tabindex="-1" aria-labelledby="cubagemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cubagemModalLabel">Calculadora de Cubagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Unidade de Medida:</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="unidadeMedida" id="unidadeCm" value="cm" checked>
+                            <label class="form-check-label" for="unidadeCm">Centímetros (cm)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="unidadeMedida" id="unidadeM" value="m">
+                            <label class="form-check-label" for="unidadeM">Metros (m)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="medidasInput" class="form-label">Insira as medidas (Qtd-CxLxA):</label>
+                    <textarea id="medidasInput" class="form-control" rows="8" placeholder="Exemplos:&#10;1-100x50x30&#10;2x0.8x0.6x0.4&#10;(3) 1200*800*1000"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Resultado:</label>
+                    <pre id="resultadoCubagem" class="form-control" style="min-height: 150px;"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="btnCalcularCubagem">Calcular</button>
+                <button type="button" class="btn btn-success" id="btnTransferirCubagem" disabled>Transferir para Cotação</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block page_scripts %}
+    {{ block.super }} 
+    <script src="{% static 'assets/custom/js/spinner.js' %}"></script>
+    <script src="{% static 'assets/custom/js/prazo.js' %}?v=999"></script>
+    <script src="{% static 'assets/custom/js/set_status.js' %}"></script>
+    <script src="{% static 'assets/custom/js/sugerir_preco.js' %}"></script>
+    <script src="{% static 'assets/custom/js/calculadora.js' %}"></script>
+    <script src="{% static 'assets/custom/js/formatar_moeda.js' %}"></script>
+    <script src="{% static 'assets/custom/js/mapa.js' %}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const statusCotacaoSelect = document.querySelector('select[name="status_cotacao"]');
+            const statusEnvioSelect = document.querySelector('select[name="status_envio"]');
+
+            if (statusCotacaoSelect && statusEnvioSelect) {
+                
+                const colorMap = {
+                    'Aprovada':       { bg: '#d1e7dd', text: '#0f5132', border: '#badbcc' },
+                    'Finalizada':     { bg: '#d1e7dd', text: '#0f5132', border: '#badbcc' },
+                    'Reprovada':      { bg: '#f8d7da', text: '#58151c', border: '#f5c2c7' },
+                    'Enviado':        { bg: '#198754', text: 'white',   border: '#198754' },
+                    'Não Enviado':    { bg: '#fff3cd', text: '#664d03', border: '#ffc107' },
+                    'Falta Cubagem':  { bg: '#fff3cd', text: '#664d03', border: '#ffc107' },
+                    'Faltam Medidas': { bg: '#fff3cd', text: '#664d03', border: '#ffc107' },
+                    'Falta Preço':    { bg: '#f8d7da', text: '#58151c', border: '#dc3545' },
+                    'Aguardando':     { bg: '#cff4fc', text: '#055160', border: '#0dcaf0' },
+                    'Rejeitada':      { bg: '#dc3545', text: 'white',   border: '#dc3545' },
+                    'Duplicada':      { bg: '#e2e3e5', text: '#41464b', border: '#adb5bd' }
+                };
+
+                // Função auxiliar que aplica estilo a UM elemento
+                function setElementStyle(element, value, map) {
+                    // Primeiro, sempre limpa o estilo anterior para voltar ao padrão
+                    element.style.backgroundColor = '';
+                    element.style.color = '';
+                    element.style.borderColor = '';
+
+                    // Procura um estilo no mapa e aplica
+                    for (const [key, colors] of Object.entries(map)) {
+                        if (value.includes(key)) {
+                            element.style.backgroundColor = colors.bg;
+                            element.style.color = colors.text;
+                            element.style.borderColor = colors.border;
+                            return; // Encontrou, aplicou, terminou.
+                        }
+                    }
+                }
+
+                // Função principal que atualiza as cores
+                function updateAllColors() {
+                    // Chama a função de estilo para cada campo, de forma independente
+                    setElementStyle(statusCotacaoSelect, statusCotacaoSelect.value, colorMap);
+                    setElementStyle(statusEnvioSelect, statusEnvioSelect.value, colorMap);
+                }
+                
+                // Roda na carga da página e em cada mudança
+                updateAllColors();
+                statusCotacaoSelect.addEventListener('change', updateAllColors);
+                statusEnvioSelect.addEventListener('change', updateAllColors);
+
+            } else {
+                if (!statusCotacaoSelect) { console.error("Script de Cores: O campo <select name='status_cotacao'> não foi encontrado."); }
+                if (!statusEnvioSelect) { console.error("Script de Cores: O campo <select name='status_envio'> não foi encontrado."); }
+            }
+        });
+    </script>
+    {% endblock %}

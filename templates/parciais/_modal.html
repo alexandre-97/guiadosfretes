@@ -1,0 +1,111 @@
+<!-- templates/parciais/_modal.html -->
+<div class="modal fade" id="modalProcessando" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Sucesso</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Ícone de sucesso -->
+        <div class="text-success mb-3" style="font-size: 3rem;">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <p class="mb-0 fw-bold">Cotação salva com sucesso!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 1: Chegada -->
+<div class="modal fade" id="modalChegada" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Chegada do Material</h5>
+      </div>
+      <div class="modal-body">
+        <p>O material chegou na base ou foi direto?</p>
+        <div class="d-grid gap-2">
+          <button id="btnChegou" class="btn btn-success" data-bs-dismiss="modal">Chegou!</button>
+          <button id="btnVaiDireto" class="btn btn-primary" data-bs-dismiss="modal">Já vai direto</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar: Processo se encerra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Cobrança -->
+<div class="modal fade" id="modalCobranca" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Forma de Cobrança</h5>
+      </div>
+      <div class="modal-body">
+        <p>A cobrança é de 100% ou 50% do valor total?</p>
+        <div class="d-grid gap-2">
+          <button id="btn100" class="btn btn-success" data-bs-dismiss="modal">100% da proposta!</button>
+          <button id="btn50" class="btn btn-warning" data-bs-dismiss="modal">50% da proposta</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar: Processo se encerra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Confirmação Envio -->
+<div class="modal fade" id="modalConfirmacaoEnvio" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar Envio</h5>
+      </div>
+      <div class="modal-body">
+        <p id="mensagemConfirmacao"></p>
+        <div class="d-flex gap-2 justify-content-center">
+          <button id="btnConfirmarEnvio" class="btn btn-success">Confirmar</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal de Confirmação -->
+<div class="modal fade" id="modalConfirmacao" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">Mensagem Gerada</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="confirmacaoMensagem">
+        <!-- Mensagem será inserida aqui via JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" id="btnEnviarWhatsApp">Enviar por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Erro -->
+<div class="modal fade" id="modalErro" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Erro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="errorMessage">
+        <!-- Mensagem de erro será inserida aqui -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

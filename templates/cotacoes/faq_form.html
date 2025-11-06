@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+{% block page_title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">{{ titulo_pagina }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.pergunta.id_for_label }}" class="form-label">Pergunta</label>
+                        {{ form.pergunta }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="{{ form.resposta.id_for_label }}" class="form-label">Resposta</label>
+                        {{ form.resposta }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.categoria.id_for_label }}" class="form-label">Categoria</label>
+                            {{ form.categoria }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.ordem.id_for_label }}" class="form-label">Ordem de Exibição</label>
+                            {{ form.ordem }}
+                        </div>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        {{ form.ativo }}
+                        <label class="form-check-label" for="{{ form.ativo.id_for_label }}">Ativo (visível para todos os usuários)</label>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{% url 'quoteflow:faq_list' %}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary"><i class="ti ti-device-floppy me-1"></i> Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% load omfilters %}
+
+<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+    <a class="navbar-brand" href="{% if request.user.is_authenticated %}{% url 'quoteflow:cotacao_list' %}{% else %}{% url 'perfil:login' %}{% endif %}">PreciFlow</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto">  <!-- ml-auto -> ms-auto -->
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">  <!-- data-toggle -> data-bs-toggle -->
+                    Conta
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">  <!-- div -> ul, added dropdown-menu-end -->
+                    <li><a class="dropdown-item" href="{% url 'quoteflow:cotacao_list' %}">Cotações</a></li>
+                    <li><a class="dropdown-item" href="{% url 'perfil:login' %}">Atualizar meus dados</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'perfil:login' %}">Entrar</a>
+            </li>
+            {% endif %}
+
+            {% if request.session.carrinho %}
+            <li class="nav-item">
+                <a class="nav-link nav-cart-link active" href="{% url 'produto:carrinho' %}">
+                    <span class="nav-cart-text me-1">  <!-- mr-1 -> me-1 -->
+                        Carrinho
+                    </span>
+                    <span class="nav-cart-count me-1">  <!-- mr-1 -> me-1 -->
+                        <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
+                    </span>
+                    <span class="nav-cart-icon me-2">  <!-- mr-2 -> me-2 -->
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="d-flex my-2 my-lg-0" method="GET" action="{% url 'quoteflow:busca' %}">  <!-- form-inline -> d-flex -->
+            <input name="termo" value="{{ request.GET.termo }}" class="form-control me-sm-2" type="search"
+                placeholder="Busca" aria-label="Busca">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Busca</button>
+        </form>
+    </div>
+</nav>

@@ -1,0 +1,43 @@
+<div class="modal fade" id="envioMassaModal" tabindex="-1" aria-labelledby="envioMassaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="envioMassaModalLabel">Envio em Massa de Propostas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <i class="ti ti-info-circle me-1"></i> Serão enviadas propostas para todas as <strong>suas</strong> cotações com status "Em Negociação" e "Não Enviado".
+                </div>
+                <div id="feedback-envio-massa" class="mt-3"></div>
+                <h6>Cotações a serem enviadas:</h6>
+                <div id="cotacoesSelecionadas">
+                    <p class="text-muted">Carregando cotações elegíveis...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" id="btn-confirmar-envio-massa" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+                    Enviar Propostas
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resultadoEnvioModal" tabindex="-1" aria-labelledby="resultadoEnvioModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resultadoEnvioModalLabel">Resultado do Envio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="resultadoEnvioBody">
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

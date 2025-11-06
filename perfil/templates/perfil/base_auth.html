@@ -1,0 +1,38 @@
+{% comment %} Arquivo: perfil/templates/perfil/base_auth.html (CORRIGIDO) {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'assets/images/logo/PF.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/PF.png' %}" type="image/x-icon">
+
+    <title>{% block title %}Autenticação{% endblock %} | PreciFlow</title>
+
+    <link rel="stylesheet" href="{% static 'assets/vendor/fontawesome/css/all.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap">
+    <link rel="stylesheet" href="{% static 'assets/vendor/tabler-icons/tabler-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/vendor/phosphor/phosphor-bold.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}" type="text/css">
+</head>
+
+<body class="sign-in-bg">
+    <div class="app-wrapper d-block">
+        <div class="">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    
+    <script src="{% static 'assets/js/jquery-3.6.3.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

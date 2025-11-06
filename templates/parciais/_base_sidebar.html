@@ -1,0 +1,74 @@
+{% comment %} Arquivo: templates/parciais/_base_sidebar.html (CORRIGIDO) {% endcomment %}
+{% load static %}
+<nav>
+    <div class="app-logo">
+        <a class="logo d-inline-block" href="{% url 'quoteflow:cotacao_list' %}">
+            <img alt="Logo" src="{% static 'assets/images/logo/PFlow.png' %}">
+        </a>
+        <span class="bg-light-primary toggle-semi-nav d-flex-center"><i class="ti ti-chevron-right"></i></span>
+
+        <div class="d-flex align-items-center nav-profile p-3">
+            <span class="text-outline-primary h-45 w-45 d-flex-center b-r-50">
+                {{ request.user.username|slice:":2"|upper }}
+            </span>
+            <div class="flex-grow-1 ps-2">
+                <h6 class="text-primary mb-0">{{ request.user.get_full_name|default:request.user.username }}</h6>
+                <p class="text-muted f-s-12 mb-0">{{ request.user.perfil.departamento|default:'Sem departamento' }}</p>
+            </div>
+
+            <div class="dropdown profile-menu-dropdown">
+                <a aria-expanded="false" data-bs-toggle="dropdown" role="button">
+                    <i class="ti ti-settings fs-5"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item">
+                        <a class="f-w-500" href="{% url 'perfil:meus_dados' %}">
+                            <i class="ph-duotone ph-user-circle pe-1 f-s-20"></i> Meus Dados
+                        </a>
+                    </li>
+                    <li class="app-divider-v dotted py-1"></li>
+                    <li class="dropdown-item">
+                        <a class="mb-0 text-danger" href="{% url 'perfil:logout' %}">
+                            <i class="ph-duotone ph-sign-out pe-1 f-s-20"></i> Sair
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-nav" id="app-simple-bar">
+        <ul class="main-nav p-0 mt-2">
+            <li class="menu-title"><span>OPERAÇÃO</span></li>
+            <li>
+                <a href="{% url 'quoteflow:cotacao_list' %}">
+                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#home"></use></svg>
+                    Cotações
+                </a>
+            </li>
+            
+            {% comment %} {% endcomment %}
+            
+            <li class="menu-title"><span>ANÁLISE</span></li>
+            <li>{% if perms.perfil.pode_ver_dashboard %}
+                <a href="{% url 'quoteflow:dashboard' %}">
+                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#chart"></use></svg>
+                    Dashboard
+                </a>
+                {% endif %}
+            <li class="menu-title"><span>RECURSOS</span></li>
+            <li>
+                <a href="{% url 'quoteflow:updates_list' %}">
+                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#bell"></use></svg>
+                    Atualizações Recentes
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'quoteflow:faq_list' %}">
+                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#help-circle"></use></svg>
+                    FAQ - Dúvidas
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

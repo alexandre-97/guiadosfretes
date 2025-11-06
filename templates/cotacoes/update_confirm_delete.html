@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block page_title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Você tem certeza?</h5>
+                <p class="card-text">
+                    Você está prestes a excluir permanentemente a atualização:
+                    <br><strong>"{{ post.title }}"</strong>
+                </p>
+                <p class="text-danger">Esta ação não pode ser desfeita.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <a href="{% url 'quoteflow:updates_list' %}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-danger">Sim, Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

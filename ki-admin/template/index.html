@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Multipurpose, super flexible, powerful, clean modern responsive bootstrap 5 admin template"
+          name="description">
+    <meta content="admin template, ki-admin admin template, dashboard template, flat admin template, responsive admin template, web app"
+          name="keywords">
+    <meta content="la-themes" name="author">
+    <link href="../assets/images/logo/favicon.png" rel="icon" type="image/x-icon">
+    <link href="../assets/images/logo/favicon.png" rel="shortcut icon" type="image/x-icon">
+    <title>Ecommerce Dashboard | ki-admin - Premium Admin Template</title>
+
+    <!-- Animation css -->
+    <link href="../assets/vendor/animation/animate.min.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet">
+
+    <!--flag Icon css-->
+    <link href="../assets/vendor/flag-icons-master/flag-icon.css" rel="stylesheet" type="text/css">
+
+    <!-- tabler icons-->
+    <link href="../assets/vendor/tabler-icons/tabler-icons.css" rel="stylesheet" type="text/css">
+
+    <!-- apexcharts css-->
+    <link href="../assets/vendor/apexcharts/apexcharts.css" rel="stylesheet" type="text/css">
+
+    <!-- glight css -->
+    <link href="../assets/vendor/glightbox/glightbox.min.css" rel="stylesheet">
+
+    <!-- Bootstrap css-->
+    <link href="../assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- simplebar css-->
+    <link href="../assets/vendor/simplebar/simplebar.css" rel="stylesheet" type="text/css">
+
+    <!-- App css-->
+    <link href="../assets/css/style.css" rel="stylesheet" type="text/css">
+
+    <!-- Responsive css-->
+    <link href="../assets/css/responsive.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+<div class="app-wrapper">
+
+    <div class="loader-wrapper">
+        <div class="loader_24"></div>
+    </div>
+
+    <!-- Menu Navigation starts -->
+    <nav>
+        <div class="app-logo">
+            <a class="logo d-inline-block" href="index.html">
+                <img alt="#" src="../assets/images/logo/1.png">
+            </a>
+
+            <span class="bg-light-primary toggle-semi-nav d-flex-center">
+                <i class="ti ti-chevron-right"></i>
+            </span>
+
+            <div class="d-flex align-items-center nav-profile p-3">
+                <span class="h-45 w-45 d-flex-center b-r-10 position-relative bg-danger m-auto">
+                    <img alt="avatar" class="img-fluid b-r-10" src="../assets/images/avatar/woman.jpg">
+                    <span class="position-absolute top-0 end-0 p-1 bg-success border border-light rounded-circle"></span>
+                </span>
+                <div class="flex-grow-1 ps-2">
+                    <h6 class="text-primary mb-0"> Ninfa Monaldo</h6>
+                    <p class="text-muted f-s-12 mb-0">Web Developer</p>
+                </div>
+
+
+                <div class="dropdown profile-menu-dropdown">
+                    <a aria-expanded="false" data-bs-auto-close="true" data-bs-placement="top" data-bs-toggle="dropdown"
+                       role="button">
+                        <i class="ti ti-settings fs-5"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a class="f-w-500" href="./profile.html" target="_blank">
+                                <i class="ph-duotone  ph-user-circle pe-1 f-s-20"></i> Profile Details
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="f-w-500" href="./setting.html" target="_blank">
+                                <i class="ph-duotone  ph-gear pe-1 f-s-20"></i> Settings
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <a class="f-w-500" href="#">
+                                        <i class="ph-duotone  ph-detective pe-1 f-s-20"></i> Incognito
+                                    </a>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input form-check-primary" id="incognitoSwitch"
+                                               type="checkbox">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="dropdown-item">
+                            <a class="mb-0 text-secondary f-w-500" href="./sign_up.html" target="_blank">
+                                <i class="ph-bold  ph-plus pe-1 f-s-20"></i> Add account
+                            </a>
+                        </li>
+
+                        <li class="app-divider-v dotted py-1"></li>
+
+                        <li class="dropdown-item">
+                            <a class="mb-0 text-danger" href="./sign_in.html" target="_blank">
+                                <i class="ph-duotone  ph-sign-out pe-1 f-s-20"></i> Log Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="app-nav" id="app-simple-bar">
+            <ul class="main-nav p-0 mt-2">
+                <li class="menu-title">
+                    <span>Dashboard</span>
+                </li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#dashboard">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#home"></use>
+                        </svg>
+                        dashboard
+                        <span class="badge bg-danger  badge-dashboard badge-notification ms-2">New</span>
+
+                    </a>
+                    <ul class="collapse" id="dashboard">
+                        <li><a href="index.html">Ecommerce</a></li>
+                        <li><a href="project_dashboard.html">Project</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#apps">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#stack"></use>
+                        </svg>
+                        Apps
+                    </a>
+                    <ul class="collapse" id="apps">
+                        <li><a href="calendar.html">Calender</a></li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#Profile-page">
+                                Profile
+                            </a>
+                            <ul class="collapse" id="Profile-page">
+                                <li><a href="profile.html">Profile</a></li>
+                                <li><a href="setting.html">Setting</a></li>
+                            </ul>
+                        </li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#projects-page">
+                                Projects Page
+                            </a>
+                            <ul class="collapse" id="projects-page">
+                                <li><a href="project_app.html">projects</a></li>
+                                <li><a href="project_details.html">projects Details</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="to_do.html">To-Do</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="api.html">API</a></li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#ticket-page">
+                                Ticket
+                            </a>
+                            <ul class="collapse" id="ticket-page">
+                                <li><a href="ticket.html">Ticket</a></li>
+                                <li><a href="ticket_details.html">Ticket Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#email-page">
+                                Email Page
+                            </a>
+                            <ul class="collapse" id="email-page">
+                                <li><a href="email.html"> Email</a></li>
+                                <li><a href="read_email.html">Read Email</a></li>
+                            </ul>
+                        </li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#e-shop">
+                                E-shop
+                            </a>
+                            <ul class="collapse" id="e-shop">
+                                <li><a href="cart.html">Cart</a></li>
+                                <li><a href="product.html">Product</a></li>
+                                <li><a href="add_product.html">Add Product</a></li>
+                                <li><a href="product_details.html">Product-Details</a></li>
+                                <li><a href="product_list.html">Product list</a></li>
+                                <li><a href="orders.html">Orders</a></li>
+                                <li><a href="orders_details.html">Orders Details</a></li>
+                                <li><a href="orders_list.html">Orders List</a></li>
+                                <li><a href="checkout.html">Check out</a></li>
+                                <li><a href="wishlist.html">Wishlist</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="invoice.html">Invoice</a></li>
+                        <li><a href="chat.html">Chat</a></li>
+                        <li><a href="file_manager.html">File manager</a></li>
+                        <li><a href="bookmark.html">Bookmark</a></li>
+                        <li><a href="kanban_board.html">Kanban board</a></li>
+                        <li><a href="timeline.html">Timeline</a></li>
+                        <li><a href="faq.html">FAQS</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#blog-page">
+                                Blog Page
+                            </a>
+                            <ul class="collapse" id="blog-page">
+                                <li><a href="blog.html">Blog</a></li>
+                                <li><a href="blog_read_more.html">Blog Details</a></li>
+                                <li><a href="add_blog.html">Add Blog</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="no-sub">
+                    <a href="widget.html">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#squares"></use>
+                        </svg>
+                        Widgets
+                    </a>
+                </li>
+
+                <li class="menu-title"><span>Component</span></li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#ui-kits">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#briefcase"></use>
+                        </svg>
+                        UI kits
+                    </a>
+                    <ul class="collapse" id="ui-kits">
+                        <li><a href="cheatsheet.html">Cheatsheet</a></li>
+                        <li><a href="alert.html">Alert</a></li>
+                        <li><a href="badges.html">Badges</a></li>
+                        <li><a href="buttons.html">Buttons</a></li>
+                        <li><a href="cards.html">Cards</a></li>
+                        <li><a href="dropdown.html">Dropdown</a></li>
+                        <li><a href="grid.html">Grid</a></li>
+                        <li><a href="avatar.html">Avatar</a></li>
+                        <li><a href="tabs.html">Tabs</a></li>
+                        <li><a href="accordions.html">Accordions</a></li>
+                        <li><a href="progress.html">Progress</a></li>
+                        <li><a href="notifications.html">Notifications</a></li>
+                        <li><a href="list.html">Lists</a></li>
+                        <li><a href="helper_classes.html">Helper Classes</a></li>
+                        <li><a href="background.html">Background</a></li>
+                        <li><a href="divider.html">Divider</a></li>
+                        <li><a href="ribbons.html">Ribbons</a></li>
+                        <li><a href="editor.html">Editor </a></li>
+                        <li><a href="collapse.html">Collapse</a></li>
+                        <li><a href="footer-page.html">Footer</a></li>
+                        <li><a href="shadow.html">Shadow</a></li>
+                        <li><a href="wrapper.html">Wrapper</a></li>
+                        <li><a href="bullet.html">Bullet</a></li>
+                        <li><a href="placeholder.html">Placeholder</a></li>
+                        <li><a href="alignment.html">Alignment Thing</a></li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#advance-ui">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#briefcase-advance"></use>
+                        </svg>
+                        Advance UI
+                        <span class=" badge rounded-pill bg-warning badge-notification ms-2">
+                12+
+                <span class="visually-hidden">unread messages</span>
+              </span>
+                    </a>
+                    <ul class="collapse" id="advance-ui">
+                        <li><a href="modals.html">Modals</a></li>
+                        <li><a href="offcanvas.html">Offcanvas Toggle</a></li>
+                        <li><a href="sweetalert.html">Sweat Alert</a></li>
+                        <li><a href="scrollbar.html">Scrollbar</a></li>
+                        <li><a href="spinners.html">Spinners</a></li>
+                        <li><a href="animation.html">Animation</a></li>
+                        <li><a href="video_embed.html">Video Embed</a></li>
+                        <li><a href="tour.html">Tour</a></li>
+                        <li><a href="slick.html">Slider</a></li>
+                        <li><a href="bootstrap_slider.html">Bootstrap Slider</a></li>
+                        <li><a href="scrollpy.html">Scrollpy</a></li>
+                        <li><a href="tooltips_popovers.html">Tooltip & Popovers</a></li>
+                        <li><a href="ratings.html">Rating</a></li>
+                        <li><a href="prismjs.html">Prismjs</a></li>
+                        <li><a href="count_down.html">Count Down</a></li>
+                        <li><a href="count_up.html"> Count up </a></li>
+                        <li><a href="draggable.html">Draggable</a></li>
+                        <li><a href="tree-view.html">Tree View</a></li>
+                        <li><a href="block_ui.html">Block Ui </a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#icons">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#gift"></use>
+                        </svg>
+                        Icons
+                    </a>
+                    <ul class="collapse" id="icons">
+                        <li><a href="fontawesome.html">Fontawesome</a></li>
+                        <li><a href="flag_icons.html">Flag</a></li>
+                        <li><a href="tabler-icons.html">Tabler</a></li>
+                        <li><a href="weather_icon.html">Weather</a></li>
+                        <li><a href="animated_icon.html">Animated</a></li>
+                        <li><a href="iconoir_icon.html">Iconoir</a></li>
+                        <li><a href="phosphor.html">Phosphor</a></li>
+                    </ul>
+                </li>
+                <li class="no-sub">
+                    <a href="misc.html">
+
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#rectangle"></use>
+                        </svg>
+                        Misc
+                    </a>
+                </li>
+                <li class="menu-title"><span>Map & Charts </span></li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#maps">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#location"></use>
+                        </svg>
+                        Map
+                    </a>
+                    <ul class="collapse" id="maps">
+                        <li><a href="google-map.html">Google Maps</a></li>
+                        <li><a href="leaflet-map.html">Leaflet map</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#chart">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#chart"></use>
+                        </svg>
+                        Chart
+                    </a>
+                    <ul class="collapse" id="chart">
+                        <li><a href="chart_js.html">Chart js</a></li>
+
+
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#apexcharts-page">
+                                Apexcharts
+                            </a>
+                            <ul class="collapse" id="apexcharts-page">
+                                <li><a href="line.html">Line</a></li>
+                                <li><a href="area_charts.html">Area</a></li>
+                                <li><a href="column.html">Column</a></li>
+                                <li><a href="bar.html">Bar</a></li>
+                                <li><a href="mixed.html">Mixed</a></li>
+                                <li><a href="timeline_range_charts.html">Timeline & Range-Bars</a></li>
+                                <li><a href="candlestick_charts.html">Candlestick</a></li>
+                                <li><a href="boxplot.html">Boxplot</a></li>
+                                <li><a href="bubble.html">Bubble</a></li>
+                                <li><a href="scatter.html">Scatter</a></li>
+                                <li><a href="heatmap.html">Heatmap</a></li>
+                                <li><a href="treemap.html">Treemap</a></li>
+                                <li><a href="pie_charts.html">Pie</a></li>
+                                <li><a href="radial_bar.html">Radial bar</a></li>
+                                <li><a href="radar_chart.html">Radar</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu-title"><span>Table & forms </span></li>
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#table">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#table"></use>
+                        </svg>
+                        Table
+                    </a>
+                    <ul class="collapse" id="table">
+                        <li><a href="basic_table.html">BasicTable</a></li>
+                        <li><a href="data_table.html">Data Table</a></li>
+                        <li><a href="list_table.html">List Js</a></li>
+                        <li><a href="advance_table.html">Advance Table</a></li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#forms">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#wallet"></use>
+                        </svg>
+                        Forms elements
+                    </a>
+                    <ul class="collapse" id="forms">
+                        <li><a href="form_validation.html">Form Validation</a></li>
+                        <li><a href="base_inputs.html">Base Input</a></li>
+                        <li><a href="checkbox_radio.html">Checkbox & Radio</a></li>
+                        <li><a href="input_groups.html">Input Groups</a></li>
+                        <li><a href="input_masks.html">Input Masks</a></li>
+                        <li><a href="floating_labels.html">Floating Labels</a></li>
+                        <li><a href="date_picker.html">Datetimepicker</a></li>
+                        <li><a href="touch_spin.html">Touch spin</a></li>
+                        <li><a href="select.html">Select2</a></li>
+                        <li><a href="switch.html">Switch</a></li>
+                        <li><a href="range_slider.html">Range Slider</a></li>
+                        <li><a href="typeahead.html">Typeahead</a></li>
+                        <li><a href="textarea.html">Textarea</a></li>
+                        <li><a href="clipboard.html">Clipboard</a></li>
+                        <li><a href="file_upload.html">File Upload</a></li>
+                        <li><a href="dual_list_boxes.html">Dual List Boxes</a></li>
+                        <li><a href="default_forms.html">Default Forms</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#ready_to_use">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#newspaper"></use>
+                        </svg>
+                        Ready to use
+                        <span class="badge text-bg-success badge-notification ms-2">2</span>
+                    </a>
+                    <ul class="collapse" id="ready_to_use">
+                        <li><a href="form_wizards.html">Form wizards</a></li>
+                        <li><a href="form_wizard_1.html">Form wizards 1</a></li>
+                        <li><a href="form_wizard_2.html">Form wizards 2</a></li>
+                        <li><a href="ready_to_use_form.html">Ready To Use Form</a></li>
+                        <li><a href="ready_to_use_table.html">Ready To Use Tables</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-title"><span>Pages</span></li>
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#auth_pages">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#window"></use>
+                        </svg>
+                        Auth Pages
+                    </a>
+                    <ul class="collapse" id="auth_pages">
+                        <li><a href="sign_in.html">Sign In</a></li>
+                        <li><a href="sign_in_1.html">Sign In with Bg-image</a></li>
+                        <li><a href="sign_up.html">Sign Up</a></li>
+                        <li><a href="sign_up_1.html">Sign Up with Bg-image</a></li>
+                        <li><a href="password_reset.html">Password Reset</a></li>
+                        <li><a href="password_reset_1.html">Password Reset with Bg-image</a></li>
+                        <li><a href="password_create.html">Password Create</a></li>
+                        <li><a href="password_create_1.html">Password Create with Bg-image</a></li>
+                        <li><a href="lock_screen.html">Lock Screen</a></li>
+                        <li><a href="lock_screen_1.html">Lock Screen with Bg-image</a></li>
+                        <li><a href="two_step_verification.html">Two-Step Verification</a></li>
+                        <li><a href="two_step_verification_1.html">Two-Step Verification with Bg-image</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#error_pages">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#exclamation-circle"></use>
+                        </svg>
+                        Error Pages
+                    </a>
+                    <ul class="collapse" id="error_pages">
+                        <li><a href="error_400.html">Bad Request </a></li>
+                        <li><a href="error_403.html">Forbidden </a></li>
+                        <li><a href="error_404.html">Not Found</a></li>
+                        <li><a href="error_500.html">Internal Server</a></li>
+                        <li><a href="error_503.html">Service Unavailable</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#other_pages">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#document"></use>
+                        </svg>
+                        Other Pages
+                    </a>
+                    <ul class="collapse" id="other_pages">
+                        <li><a href="blank.html">Blank</a></li>
+                        <li><a href="maintenance.html">Maintenance</a></li>
+                        <li><a href="landing.html">Landing Page</a></li>
+                        <li><a href="coming_soon.html">Coming Soon</a></li>
+                        <li><a href="sitemap.html">Sitemap</a></li>
+                        <li><a href="privacy_policy.html">Privacy Policy</a></li>
+                        <li><a href="terms_condition.html">Terms &amp; Condition</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-title"><span>Others</span></li>
+
+                <li>
+                    <a aria-expanded="false" data-bs-toggle="collapse" href="#level">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#arrow-down"></use>
+                        </svg>
+                        2 level
+                    </a>
+                    <ul class="collapse" id="level">
+                        <li><a href="#">Blank</a></li>
+                        <li class="another-level">
+                            <a aria-expanded="false" data-bs-toggle="collapse" href="#level2">
+                                Another level
+                            </a>
+                            <ul class="collapse" id="level2">
+                                <li><a href="blank.html">Blank</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="no-sub">
+                    <a href="https://phpstack-1384472-5121645.cloudwaysapps.com/document/html/ki-admin/index.html">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#document-text"></use>
+                        </svg>
+                        Document
+                    </a>
+                </li>
+
+                <li class="no-sub">
+                    <a href="mailto:teqlathemes@gmail.com">
+                        <svg stroke="currentColor" stroke-width="1.5">
+                            <use xlink:href="../assets/svg/_sprite.svg#chat-bubble"></use>
+                        </svg>
+                        Support
+                    </a>
+                </li>
+
+
+            </ul>
+        </div>
+
+        <div class="menu-navs">
+            <span class="menu-previous"><i class="ti ti-chevron-left"></i></span>
+            <span class="menu-next"><i class="ti ti-chevron-right"></i></span>
+        </div>
+
+    </nav>
+    <!-- Menu Navigation ends -->
+
+    <div class="app-content">
+        <div class="">
+
+            <!-- Header Section starts -->
+            <header class="header-main">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-8 col-sm-6 d-flex align-items-center header-left p-0">
+                           <span class="header-toggle ">
+                             <i class="ph ph-squares-four"></i>
+                           </span>
+
+                            <div class="header-searchbar w-100">
+                                <form action="#" class="mx-sm-3 app-form app-icon-form ">
+                                    <div class="position-relative">
+                                        <input aria-label="Search" class="form-control" placeholder="Search..."
+                                               type="search">
+                                        <i class="ti ti-search text-dark"></i>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-4 col-sm-6 d-flex align-items-center justify-content-end header-right p-0">
+
+                            <ul class="d-flex align-items-center">
+
+                                <li class="header-language">
+                                    <div class="flex-shrink-0 dropdown" id="lang_selector">
+                                        <a aria-expanded="false" class="d-block head-icon ps-0"
+                                           data-bs-toggle="dropdown"
+                                           href="#">
+                                            <div class="lang-flag lang-en ">
+                                                <span class="flag rounded-circle overflow-hidden">
+                                                    <i class=""></i>
+                                                </span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu language-dropdown header-card border-0">
+                                            <li class="lang lang-en selected dropdown-item p-2" data-bs-placement="top"
+                                                data-bs-toggle="tooltip" title="US">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="flag-icon flag-icon-usa flag-icon-squared rounded-circle f-s-20"></i>
+                                                    <span class="ps-2">US</span>
+                                                </span>
+                                            </li>
+                                            <li class="lang lang-pt dropdown-item p-2" title="FR">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="flag-icon flag-icon-fra flag-icon-squared rounded-circle f-s-20"></i>
+                                                    <span class="ps-2">France</span>
+                                                </span>
+                                            </li>
+                                            <li class="lang lang-es dropdown-item p-2" title="UK">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="flag-icon flag-icon-gbr flag-icon-squared rounded-circle f-s-20"></i>
+                                                    <span class="ps-2">UK</span>
+                                                </span>
+                                            </li>
+                                            <li class="lang lang-es dropdown-item p-2" title="IT">
+                                                <span class="d-flex align-items-center">
+                                                    <i class="flag-icon flag-icon-ita flag-icon-squared rounded-circle f-s-20"></i>
+                                                    <span class="ps-2">Italy</span>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </li>
+
+                                <li class="header-apps">
+                                    <a aria-controls="appscanvasRights"
+                                       class="d-block head-icon bg-light-dark rounded-circle f-s-22 p-2"
+                                       data-bs-target="#appscanvasRights" data-bs-toggle="offcanvas"
+                                       href="#" role="button">
+                                        <i class="ph ph-bounding-box"></i>
+
+                                    </a>
+
+                                    <div aria-labelledby="appscanvasRightsLabel"
+                                         class="offcanvas offcanvas-end header-apps-canvas"
+                                         id="appscanvasRights"
+                                         tabindex="-1">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="appscanvasRightsLabel">Shortcut</h5>
+                                            <div class="app-dropdown flex-shrink-0">
+                                                <a aria-expanded="false" class=" p-1" data-bs-auto-close="outside"
+                                                   data-bs-toggle="dropdown"
+                                                   href="#"
+                                                   role="button">
+                                                    <i class="ph-bold  ph-faders-horizontal f-s-20"></i>
+
+
+                                                </a>
+                                                <ul class="dropdown-menu mb-3">
+                                                    <li class="dropdown-item">
+                                                        <a href="setting.html" target="_blank">
+                                                            Privacy Settings
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown-item">
+                                                        <a href="setting.html" target="_blank">
+                                                            Account Settings
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown-item">
+                                                        <a href="setting.html" target="_blank">
+                                                            Accessibility
+                                                        </a>
+                                                    </li>
+                                                    <li class="dropdown-divider"></li>
+                                                    <li class="dropdown-item border-0">
+                                                        <a aria-expanded="false" data-bs-toggle="dropdown" href="#"
+                                                           role="button">
+                                                            More Settings
+                                                        </a>
+                                                        <ul class="dropdown-menu sub-menu">
+                                                            <li class="dropdown-item">
+                                                                <a href="setting.html" target="_blank">
+                                                                    Backup and Restore
+                                                                </a>
+                                                            </li>
+                                                            <li class="dropdown-item">
+                                                                <a href="setting.html" target="_blank">
+                                                                    <span>Data Usage</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="dropdown-item">
+                                                                <a href="setting.html" target="_blank">
+                                                                    <span>Theme</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="dropdown-item d-flex align-items-center justify-content-between">
+                                                                <a href="#">
+                                                                    <p class="mb-0">Notification</p>
+                                                                </a>
+                                                                <div class="flex-shrink-0">
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input  form-check-primary"
+                                                                               id="notificationSwitch"
+                                                                               type="checkbox">
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="offcanvas-body app-scroll">
+                                            <div class="row row-cols-3 g-2">
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-primary w-100 rounded-3 py-3 px-2 "
+                                                       href="product.html"
+                                                       target="_blank">
+                                                          <span>
+                                                            <i class="ph-light  ph-shopping-bag-open  f-s-30"></i>
+                                                          </span>
+                                                        <p class="mb-0 f-w-500 text-dark">E-shop</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-danger w-100 rounded-3 py-3 px-2 "
+                                                       href="email.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-envelope  f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Email</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-success w-100 rounded-3 py-3 px-2 "
+                                                       href="chat.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-chat-circle-text  f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Chat</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-warning w-100 rounded-3 py-3 px-2 "
+                                                       href="project_app.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-projector-screen-chart  f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Project</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-info w-100 rounded-3 py-3 px-2 "
+                                                       href="invoice.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-scroll f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Invoice</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-dark w-100 rounded-3 py-3 px-2 "
+                                                       href="blog.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-notebook f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Blog</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-danger w-100 rounded-3 py-3 px-2 "
+                                                       href="calendar.html"
+                                                       target="_blank">
+                                                         <span>
+                                                           <i class="ph-light  ph-calendar f-s-30"></i>
+                                                         </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Calender</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-warning w-100 rounded-3 py-3 px-2 "
+                                                       href="file_manager.html"
+                                                       target="_blank">
+                                                        <span>
+                                                          <i class="ph-light  ph-folder-open f-s-30"></i>
+                                                        </span>
+                                                        <p class="mb-0 f-w-500 text-dark txt-ellipsis-1">File
+                                                            Manager</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-primary w-100 rounded-3 py-3 px-2 "
+                                                       href="gallery.html "
+                                                       target="_blank">
+                                                        <span>
+                                                          <i class="ph-light  ph-google-photos-logo f-s-30"></i>
+                                                        </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Gallery</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-success w-100 rounded-3 py-3 px-2 "
+                                                       href="profile.html"
+                                                       target="_blank">
+                                                        <span>
+                                                          <i class="ph-light  ph-users-three f-s-30"></i>
+                                                        </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Profile</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="text-light-secondary w-100 rounded-3 py-3 px-2 "
+                                                       href="kanban_board.html"
+                                                       target="_blank">
+                                                        <span>
+                                                          <i class="ph-light  ph-selection-foreground f-s-30"></i>
+                                                        </span>
+                                                        <p class="mb-0 f-w-500 text-dark">Task Board</p>
+                                                    </a>
+                                                </div>
+                                                <div class="d-flex-center text-center">
+                                                    <a class="d-flex-center text-light-secondary w-100 h-100 rounded-3 p-2 dashed-1-secondary"
+                                                       href="kanban_board.html"
+                                                       target="_blank">
+                                                        <span>
+                                                          <i class="ph-light  ph-plus f-s-30"></i>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="header-cart">
+                                    <a aria-controls="cartcanvasRight"
+                                       class="d-block head-icon position-relative bg-light-dark rounded-circle f-s-22 p-2"
+                                       data-bs-target="#cartcanvasRight"
+                                       data-bs-toggle="offcanvas"
+                                       href="#" role="button">
+                                        <i class="ph ph-shopping-cart-simple"></i>
+                                        <span
+                                                class="position-absolute translate-middle badge rounded-pill bg-danger badge-notification">4</span>
+                                    </a>
+                                    <div aria-labelledby="cartcanvasRightLabel"
+                                         class="offcanvas offcanvas-end header-cart-canvas"
+                                         id="cartcanvasRight"
+                                         tabindex="-1">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="cartcanvasRightLabel">Cart</h5>
+                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="offcanvas-body app-scroll p-0">
+                                            <div class="head-container">
+                                                <div class="head-box">
+                                                  <span class="b-1-light bg-light-primary h-45 w-45 d-flex-center b-r-6">
+                                                      <img alt="cart" class="img-fluid p-1"
+                                                           src="../assets/images/header/cart/01.png">
+                                                  </span>
+
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <a class="mb-0 f-w-600 f-s-16" href="product_details.html"
+                                                           target="_blank"> Backpacks (3<i
+                                                                class="ti ti-star-filled text-warning f-s-12"></i>)
+                                                        </a>
+                                                        <div>
+                                                            <span class="text-dark"><span
+                                                                    class="text-secondary f-w-400">size</span> : M</span>
+                                                            <span class="text-dark ms-2"><span
+                                                                    class="text-secondary f-w-400">color</span> :Pink</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <p class="text-muted f-w-500 mb-0">$600.50 x 1</p>
+                                                    </div>
+                                                </div>
+                                                <div class="head-box">
+                                                    <span class="b-1-light bg-light-primary h-45 w-45 d-flex-center b-r-6">
+                                                      <img alt="cart" class="img-fluid p-1"
+                                                           src="../assets/images/header/cart/05.png">
+                                                  </span>
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <a class="mb-0 f-w-600 f-s-16" href="product_details.html"
+                                                           target="_blank"> Women's Watch (4<i
+                                                                class="ti ti-star-filled text-warning f-s-12"></i>)</a>
+                                                        <div>
+                                                            <span class="text-dark"><span
+                                                                    class="text-secondary f-w-400">size</span> : S</span>
+                                                            <span class="text-dark ms-2"><span
+                                                                    class="text-secondary f-w-400">color</span> :Rose Gold</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <p class="text-muted f-w-500 mb-0">$519.10 x 2</p>
+                                                    </div>
+                                                </div>
+                                                <div class="head-box">
+                                                    <span class="b-1-light bg-light-primary h-45 w-45 d-flex-center b-r-6">
+                                                      <img alt="cart" class="img-fluid p-1"
+                                                           src="../assets/images/header/cart/04.png">
+                                                  </span>
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <a class="mb-0 f-w-600 f-s-16" href="product_details.html"
+                                                           target="_blank">Sandals (5 <i
+                                                                class="ti ti-star-filled text-warning f-s-12"></i>)</a>
+                                                        <div>
+                                                            <span class="text-dark"><span
+                                                                    class="text-secondary f-w-400">size</span> : 8</span>
+                                                            <span class="text-dark ms-2"><span
+                                                                    class="text-secondary f-w-400">color</span> :White</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <p class="text-muted f-w-500 mb-0">$390 x 2</p>
+                                                    </div>
+                                                </div>
+                                                <div class="head-box ">
+                                                    <span class="b-1-light bg-light-primary h-45 w-45 d-flex-center b-r-6">
+                                                      <img alt="cart" class="img-fluid p-1"
+                                                           src="../assets/images/header/cart/03.png">
+                                                  </span>
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <a class="mb-0 f-w-600 f-s-16" href="product_details.html"
+                                                           target="_blank"> Jackets (3<i
+                                                                class="ti ti-star-filled text-warning f-s-12"></i>)</a>
+                                                        <div>
+                                                            <span class="text-dark"><span
+                                                                    class="text-secondary f-w-400">size</span> : XL</span>
+                                                            <span class="text-dark ms-2"><span
+                                                                    class="text-secondary f-w-400">color</span> :Blue</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <p class="text-muted f-w-500 mb-0">$300.00 x 2</p>
+                                                    </div>
+                                                </div>
+                                                <div class="head-box ">
+                                                    <span class="b-1-light bg-light-primary h-45 w-45 d-flex-center b-r-6">
+                                                      <img alt="cart" class="img-fluid p-1"
+                                                           src="../assets/images/header/cart/02.png">
+                                                  </span>
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <a class="mb-0 f-w-600 f-s-16" href="product_details.html"
+                                                           target="_blank"> Shoes (3<i
+                                                                class="ti ti-star-filled text-warning f-s-12"></i>)</a>
+                                                        <div>
+                                                            <span class="text-dark"><span
+                                                                    class="text-secondary f-w-400">size</span> : 9</span>
+                                                            <span class="text-dark ms-2"><span
+                                                                    class="text-secondary f-w-400">color</span> :White</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <p class="text-muted f-w-500 mb-0">$450.00 x 1</p>
+                                                    </div>
+                                                </div>
+                                                <div class="hidden-massage py-4 px-3">
+
+                                                    <div>
+                                                            <i class="ph-duotone  ph-shopping-bag-open f-s-50 text-primary"></i>
+                                                        <h6 class="mb-0">Your Cart is Empty</h6>
+                                                        <p class="text-secondary mb-0">Add some items :)</p>
+                                                        <a class="btn btn-light-primary btn-xs mt-2"
+                                                           href="product_details.html">Shop
+                                                            Now</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="offcanvas-footer">
+                                            <div class="head-box-footer p-3">
+                                                <div class="mb-4">
+                                                    <h6 class="text-muted f-w-600">Total <span
+                                                            class="float-end text-primary">$3,468.00</span></h6>
+                                                </div>
+                                                <div class="header-cart-btn">
+                                                    <a class="btn btn-primary" href="./cart.html" role="button"
+                                                       target="_blank">
+                                                        <i class="ti ti-eye"></i> View Cart</a>
+                                                    <a class="btn btn-success" href="./checkout.html" role="button"
+                                                       target="_blank">
+                                                        Checkout <i class="ti ti-shopping-cart"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="header-dark">
+                                    <div class="sun-logo head-icon bg-light-dark rounded-circle f-s-22 p-2">
+                                        <i class="ph ph-moon-stars"></i>
+                                    </div>
+                                    <div class="moon-logo head-icon bg-light-dark rounded-circle f-s-22 p-2">
+                                        <i class="ph ph-sun-dim"></i>
+                                    </div>
+                                </li>
+
+                                <li class="header-notification">
+                                    <a aria-controls="notificationcanvasRight"
+                                       class="d-block head-icon position-relative bg-light-dark rounded-circle f-s-22 p-2"
+                                       data-bs-target="#notificationcanvasRight"
+                                       data-bs-toggle="offcanvas"
+                                       href="#"
+                                       role="button">
+                                        <i class="ph ph-bell"></i>
+                                        <span
+                                                class="position-absolute translate-middle p-1 bg-primary border border-light rounded-circle animate__animated animate__fadeIn animate__infinite animate__slower"></span>
+                                    </a>
+                                    <div aria-labelledby="notificationcanvasRightLabel"
+                                         class="offcanvas offcanvas-end header-notification-canvas"
+                                         id="notificationcanvasRight" tabindex="-1">
+                                        <div class="offcanvas-header">
+                                            <h5 class="offcanvas-title" id="notificationcanvasRightLabel">
+                                                Notification</h5>
+                                            <button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas"
+                                                    type="button"></button>
+                                        </div>
+                                        <div class="offcanvas-body app-scroll p-0">
+                                            <div class="head-container">
+                                                <div class="notification-message head-box">
+
+                                                    <div class="message-content-box flex-grow-1 pe-2">
+
+                                                        <a class="f-s-15 text-dark mb-0"
+                                                           href="./read_email.html"><span
+                                                                class="f-w-500 text-dark">Gene Hart</span> wants to
+                                                            edit <span
+                                                                    class="f-w-500 text-dark">Report.doc</span></a>
+                                                        <div>
+                                                            <a class="d-inline-block f-w-500 text-success me-1"
+                                                               href="#">Approve</a>
+                                                            <a class="d-inline-block f-w-500 text-danger"
+                                                               href="#">Deny</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <div>
+                                                            <span class="badge text-light-primary"> sep 23 </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="notification-message head-box">
+
+                                                    <div class="message-content-box flex-grow-1 pe-2">
+                                                        <a class="f-s-15 text-dark mb-0" href="./read_email.html">Hey
+                                                            <span
+                                                                    class="f-w-500 text-dark">Emery McKenzie</span>,
+                                                            get ready: Your order from <span
+                                                                    class="f-w-500 text-dark">@Shopper.com</span></a>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <div>
+                                                            <span class="badge text-light-primary"> sep 23 </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="notification-message head-box">
+                                                    <div class="message-content-box flex-grow-1 pe-2">
+                                                        <a class="f-s-15 text-dark mb-0"
+                                                           href="./read_email.html"><span
+                                                                class="f-w-500 text-dark">Simon Young</span> shared
+                                                            a file called <span
+                                                                    class="f-w-500 text-dark">Dropdown.pdf</span></a>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <div>
+                                                            <span class="badge text-light-primary"> 30 min</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="notification-message head-box">
+                                                    <div class="message-content-box flex-grow-1 pe-2">
+                                                        <a class="f-s-15 text-dark mb-0"
+                                                           href="./read_email.html"><span
+                                                                class="f-w-500 text-dark">Becky G. Hayes</span> has
+                                                            added a comment to <span
+                                                                    class="f-w-500 text-dark">Final_Report.pdf</span></a>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <div>
+                                                            <span class="badge text-light-primary"> 45 min</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="notification-message head-box">
+                                                    <div class="message-content-box  flex-grow-1 pe-2">
+                                                        <a class="f-s-15 text-dark mb-0 "
+                                                           href="./read_email.html"><span
+                                                                class="f-w-600 text-dark">@Romaine</span>
+                                                            invited you to a meeting
+                                                        </a>
+                                                        <div>
+                                                            <a class="d-inline-block f-w-500 text-success me-1"
+                                                               href="#">Join</a>
+                                                            <a class="d-inline-block f-w-500 text-danger" href="#">Decline</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <i class="ph ph-trash f-s-18 text-danger close-btn"></i>
+                                                        <div>
+                                                            <span class="badge text-light-primary"> 1 hour ago </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="hidden-massage py-4 px-3">
+                                                       <div>
+                                                        <i class="ph-duotone  ph-bell-ringing f-s-50 text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0">Notification Not Found</h6>
+                                                        <p class="text-dark">When you have any notifications added
+                                                            here,will
+                                                            appear here.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Header Section ends -->
+
+            <!-- Body main section starts -->
+            <main>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-5 col-xxl-3 eshop-cards-container">
+                            <div class="row">
+                                <div class="col-6 col-md-3 col-lg-6">
+                                    <div class="card">
+                            <span class="bg-primary h-50 w-50 d-flex-center rounded-circle m-auto eshop-icon-box">
+                                    <i class="ph  ph-currency-circle-dollar f-s-24"></i>
+                            </span>
+
+
+                                        <div class="card-body eshop-cards">
+                                            <span class="ripple-effect"></span>
+                                            <div class="overflow-hidden">
+                                                <h3 class="text-primary mb-0">1.2M</h3>
+                                                <p class="mg-b-35 f-w-600 text-dark-800 txt-ellipsis-1">Total Sales</p>
+                                                <span class="badge bg-light-primary">View Report</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-6">
+                                    <div class="card">
+                              <span class="bg-danger h-50 w-50 d-flex-center rounded-circle m-auto eshop-icon-box">
+                                                <i class="ph ph-x-circle f-s-24"></i>
+                              </span>
+                                        <div class="card-body eshop-cards">
+                                            <span class="ripple-effect"></span>
+                                            <h3 class="text-danger mb-0">125</h3>
+                                            <p class="mg-b-35 f-w-600 text-dark-800 txt-ellipsis-1">Canceled Orders</p>
+                                            <span class="badge bg-light-danger">Refunded</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-6">
+                                    <div class="card">
+                            <span class="bg-warning h-50 w-50 d-flex-center rounded-circle m-auto eshop-icon-box">
+                                <i class="ph-duotone  ph-certificate f-s-24"></i>
+                            </span>
+                                        <div class="card-body eshop-cards">
+                                            <span class="ripple-effect"></span>
+                                            <h3 class="text-warning mb-0 txt-ellipsis-1"> 95% </h3>
+                                            <p class="mg-b-35 f-w-600 text-dark-800 txt-ellipsis-1">Top Product</p>
+                                            <span class="badge bg-light-dark">watch X200</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-6">
+                                    <div class="card">
+                             <span class="bg-success h-50 w-50 d-flex-center rounded-circle m-auto eshop-icon-box">
+                                 <i class="ph-duotone  ph-user-circle-plus f-s-24"></i>
+                             </span>
+                                        <div class="card-body eshop-cards">
+                                            <span class="ripple-effect"></span>
+                                            <h3 class="text-success mb-0">8.5k</h3>
+                                            <p class="mg-b-35 f-w-600 text-dark-800 txt-ellipsis-1">New Customers</p>
+                                            <span class="badge bg-light-success">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7 col-xxl-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-sm-6 position-relative">
+                                            <div class="location-container">
+                                                <div class="glass-effect-box position-absolute bottom-0">
+                                                    <div class="d-flex align-items-center flex-wrap">
+                                                        <div class="w-65 h-65 overflow-hidden position-absolute top-0 start-0 d-flex-center">
+                                                            <img alt="image"
+                                                                 class="img-fluid"
+                                                                 src="../assets/images/dashboard/ecommerce-dashboard/order1.gif">
+                                                        </div>
+                                                        <div class="flex-grow-1 ps-5">
+                                                            <p class="fw-medium mb-0"> OrderId</p>
+                                                            <h6 class="text-primary mb-0 txt-ellipsis-1 ">r72qU2892</h6>
+                                                        </div>
+                                                        <span class="badge text-bg-primary f-s-10 ms-2">• On The Way</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 cart-side-card mt-3 mt-sm-0">
+                                            <div class="mb-2">
+                                                <h6 class="text-dark mb-0 txt-ellipsis-1">Delivery Date : 20 Feb
+                                                    2025 </h6>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table cart-side-table mb-0">
+                                                    <tbody>
+                                                    <tr class="total-price">
+                                                        <th>Sub Total :</th>
+                                                        <th class="text-end">
+                                                            <span id="cart-sub">$359.96</span>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p class="mb-0 txt-ellipsis-1">Discount:</p>
+                                                        </td>
+                                                        <td class="text-end text-success">-$53.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p class="mb-0 txt-ellipsis-1">Estimated Tax (12.5%) :</p>
+                                                        </td>
+                                                        <td class="text-end text-danger">$44.99</td>
+                                                    </tr>
+                                                    <tr class="total-price">
+                                                        <th><p class="mb-0 txt-ellipsis-1">Total (USD) :</p></th>
+                                                        <th class="text-end">
+                                                                 <span id="cart-total">
+                                                                   $415.96
+                                                                 </span>
+                                                        </th>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <p class="f-w-500 mb-0 txt-ellipsis-1">  Support: <a href="{{route('email" class="link-primary text-d-underline ">https://support.aicom.com/order?r72qU2892</a> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul class="app-side-timeline shipping-timeline">
+                                        <li class="side-timeline-section w-100 right-side complete-step">
+                                            <div class="side-timeline-icon">
+                                                        <span class="bg-primary h-35 w-35 d-flex-center b-r-50">
+                                                               <i class="ph-fill  ph-shopping-bag-open f-s-18"></i>
+                                                        </span>
+                                            </div>
+                                            <div class="timeline-content p-0">
+                                                <div>
+                                                    <h6 class="f-s-15 mb-2 txt-ellipsis-1">Order Placed</h6>
+                                                    <p class="mb-0  text-dark-800 f-w-400">Feb 14/25 <span
+                                                            class="text-primary f-w-500">10:15 AM</span></p>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="side-timeline-section w-100 right-side complete-step">
+                                            <div class="side-timeline-icon">
+                                                <span class="bg-primary h-35 w-35 d-flex-center b-r-50">
+                                                    <i class="ph-fill  ph-seal-check f-s-18"></i>
+                                                </span>
+                                            </div>
+                                            <div class="timeline-content p-0">
+                                                <div>
+                                                    <h6 class="f-s-15 mb-2 txt-ellipsis-1">Order Confirmed</h6>
+                                                    <p class="mb-0  text-dark-800 f-w-400">Feb 14/25 <span
+                                                            class="text-primary f-w-500">10:30 AM</span></p>
+                                                </div>
+                                            </div>
+                                        </li>
+
+
+                                        <li class="side-timeline-section w-100 right-side">
+                                            <div class="side-timeline-icon">
+                                                        <span class="bg-light-secondary text-dark-400 h-35 w-35 d-flex-center b-r-50">
+                                                            <i class="ph-fill  ph-truck f-s-18"></i>
+                                                        </span>
+                                            </div>
+                                            <div class="timeline-content p-0">
+                                                <div>
+                                                    <h6 class="f-s-15 mb-2 txt-ellipsis-1">Shipped via Courier</h6>
+                                                    <p class="mb-0  text-dark-800 f-w-400">Feb 15/25 <span
+                                                            class="text-primary f-w-500">9:00 AM</span></p>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="side-timeline-section w-100 right-side">
+                                            <div class="side-timeline-icon">
+                                                        <span class="bg-light-secondary text-dark-400 h-35 w-35 d-flex-center b-r-50">
+                                                            <i class="ph-fill  ph-house f-s-18"></i>
+                                                        </span>
+                                            </div>
+                                            <div class="timeline-content p-0">
+                                                <div>
+                                                    <h6 class="f-s-15 mb-2 txt-ellipsis-1">Delivered</h6>
+                                                    <p class="mb-0  text-dark-800 f-w-400">Feb 18/25 <span
+                                                            class="text-primary f-w-500">3:45 PM</span></p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-7 col-lg-4 col-xxl-3 ">
+                            <ul class="notifications-list box-list mb-4 ">
+                                <li class="d-flex align-items-center justify-content-between gap-3 b-s-4-primary">
+                                    <div>
+                                        <h6 class="txt-ellipsis-1 mb-0"> Order Notifications List</h6>
+                                        <p class="text-secondary mb-0">Last 2H Updates</p>
+                                    </div>
+                                    <div class="h-45 w-45 d-flex-center rounded-circle flex-shrink-0 bg-light-primary position-relative">
+                                        <i class="ph ph-bell-ringing f-s-20"></i>
+                                        <span class="position-absolute translate-middle badge rounded-pill bg-danger badge-notification">4</span>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <div class="h-45 w-45 d-flex-center b-r-12 overflow-hidden flex-shrink-0 bg-primary">
+                                        OR
+                                    </div>
+                                    <div class="ms-3">
+                                        <p class="mb-0 f-w-500 f-s-16 txt-ellipsis-1">New Order Received</p>
+                                        <p class="mb-0 text-secondary">5 min ago</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <div class="h-45 w-45 d-flex-center b-r-12 overflow-hidden flex-shrink-0 bg-success-400">
+                                        <img alt="order" class="img-fluid" src="../assets/images/avatar/2.png">
+                                    </div>
+                                    <div class="ms-3">
+                                        <p class="mb-0 f-w-500 f-s-16 txt-ellipsis-1">Order #1024 has been shipped</p>
+                                        <p class="mb-0 text-secondary">10 min ago</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <div class="h-45 w-45 d-flex-center b-r-12 overflow-hidden flex-shrink-0 bg-danger-400">
+                                        <img alt="order" class="img-fluid" src="../assets/images/avatar/5.png">
+                                    </div>
+                                    <div class="ms-3">
+                                        <p class="mb-0 f-w-500 f-s-16 txt-ellipsis-1">Order #1022 has been canceled</p>
+                                        <p class="mb-0 text-secondary">20 min ago</p>
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <div class="h-45 w-45 d-flex-center b-r-12 overflow-hidden flex-shrink-0 bg-danger-400">
+                                        <img alt="order" class="img-fluid" src="../assets/images/avatar/5.png">
+                                    </div>
+                                    <div class="ms-3">
+                                        <p class="mb-0 f-w-500 f-s-16 txt-ellipsis-1">Order #1022 has been canceled</p>
+                                        <p class="mb-0 text-secondary">20 min ago</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-5 col-lg-4 col-xxl-3 ">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="px-4 py-3">
+                                        <h4 class="text-primary">$65,563.24</h4>
+                                        <p class="mb-0 text-secondary"><span class="text-light-danger">38.3%-</span>
+                                            Last week</p>
+                                    </div>
+                                    <div class="earning-chart">
+                                        <div id="earningChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-4 col-xxl-3 ">
+                            <ul class=" box-list mb-4">
+                                <li class="b-s-4-primary">
+                                    <h5>Recent Purchases</h5>
+                                </li>
+                                <li class="d-flex align-items-center justify-between gap-2">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/02.png">
+                                    </div>
+                                    <div class="mg-s-45 flex-grow-1">
+                                        <h6 class="mb-0 text-dark-800 f-w-500 txt-ellipsis-1">Headphones</h6>
+                                        <p class="text-secondary-800 mb-0">AudioTech</p>
+                                    </div>
+                                    <span class="badge bg-light-primary">$120</span>
+                                </li>
+                                <li class="d-flex align-items-center justify-between gap-2">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/03.png">
+                                    </div>
+                                    <div class="mg-s-45 flex-grow-1">
+                                        <h6 class="mb-0 text-dark-800 f-w-500 txt-ellipsis-1">Digital Camera</h6>
+                                        <p class="text-secondary-800 mb-0">LensPro</p>
+                                    </div>
+                                    <span class="badge bg-light-primary">$350</span>
+                                </li>
+                                <li class="d-flex align-items-center justify-between gap-2">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/01.png">
+                                    </div>
+
+                                    <div class="mg-s-45 flex-grow-1">
+                                        <h6 class="mb-0 text-dark-800 f-w-500 txt-ellipsis-1">Smart Watch</h6>
+                                        <p class="text-secondary-800 mb-0">TechWear</p>
+                                    </div>
+                                    <span class="badge bg-light-primary">$199</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-4 col-xxl-3">
+                            <ul class="list-box top-brand-list mb-4">
+                                <li class="b-s-4-primary">
+                                    <h5>Top Brands</h5>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/04.png">
+                                    </div>
+                                    <div class="flex-grow-1 mg-s-45">
+                                        <h6 class="mb-0 f-w-500 text-dark-800 txt-ellipsis-1">Stylique</h6>
+                                        <p class="text-secondary-800 mb-0">Clothing</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-light-primary">96.85%</span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex align-items-center">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/06.png">
+                                    </div>
+                                    <div class="flex-grow-1 mg-s-45">
+                                        <h6 class="mb-0 f-w-500 text-dark-800 txt-ellipsis-1">Techspire</h6>
+                                        <p class="text-secondary-800 mb-0">Electronics</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-light-success">89.42%</span>
+                                    </div>
+                                </li>
+
+                                <li class="d-flex align-items-center">
+                                    <div class="b-1-light bg-primary-200 p-1 h-40 w-40 d-flex-center b-r-12 flex-shrink-0 overflow-hidden box-list-img">
+                                        <img alt="Smart Watch"
+                                             class="img-fluid"
+                                             src="../assets/images/dashboard/ecommerce-dashboard/product/07.png">
+                                    </div>
+                                    <div class="flex-grow-1 mg-s-45">
+                                        <h6 class="mb-0 f-w-500 text-dark-800 txt-ellipsis-1">TrekVibe</h6>
+                                        <p class="text-secondary-800 mb-0">Bag's</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-light-danger">74.30%</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-4 col-xxl-3">
+                            <div class="card offer-card-box">
+                                <div class="circle-ribbon circle-left ribbon-danger b-4-white">
+                                    50%
+                                </div>
+
+                                <div class="card-body offer-card-body overflow-hidden ">
+                                    <div>
+                                        <div class="my-3">
+                                            <span class="badge text-primary f-s-10 bg-white-500">Clothing</span>
+                                            <span class="badge text-primary f-s-10 bg-white-500">Toys</span>
+                                            <span class="badge text-primary f-s-10 bg-white-500">Accessories</span>
+                                        </div>
+                                        <h5 class="text-white mt-4">Super <span
+                                                class="text-bg-primary  p-1 f-s-26 f-w-700 ">Kids’</span> Weekend
+                                            <br> <span class="text-danger highlight-word p-1">Sale</span></h5>
+
+                                    </div>
+                                    <div>
+                                        <a href="product.html" target="_blank" class="btn btn-white  f-w-500 w-100 my-2">Shop Now</a>
+                                        <a class="f-s-12 f-w-500 text-white text-d-underline" href="#">Minimum purchase
+                                            of $30 required. Online & in-store.</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-xxl-2 order-3-md">
+                            <div class="card service-trial-card">
+                                <div class="card-body">
+                                    <h5 class="text-white f-w-600 txt-ellipsis-1"> AI Commerce</h5>
+                                    <p class="text-white mt-2 txt-ellipsis-2">Smarter Shopping, Faster Growth</p>
+                                    <div class=" service-img-box"></div>
+                                    <div class="mt-3">
+                                        <a href="chat.html" target="_blank" class="btn btn-primary btn-sm w-100 text-nowrap">Start Free Trial</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6  col-lg-4">
+                            <div class="card">
+                                <div class="card-body pb-0">
+                                    <div class="mb-2">
+                                        <h4 class="text-primary">98.65% <span class="f-s-14 text-dark">Total sale</span></h4>
+                                    </div>
+
+                                    <div id="revenueChart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8  col-xxl-6">
+                            <div class="card ecommerce-product-box">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div class="row g-2 h-100">
+                                                <div class="col-6">
+
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-01.jpg" class="glightbox brand-img-box" data-glightbox="type: image; zoomable: true;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-01.jpg" class="w-100" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-6 position-relative">
+                                                    <div class="box-ribbon box-right">
+                                                        <div class="ribbonbox ribbon-danger">Latest</div>
+                                                    </div>
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-02.jpg" class="glightbox brand-img-box" data-glightbox="type: image;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-02.jpg" class="w-100" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-3">
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-03.jpg" class="glightbox brand-img-box" data-glightbox="type: image;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-03.jpg" class="w-100" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-3">
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-04.jpg" class="glightbox brand-img-box" data-glightbox="type: image;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-04.jpg" class="w-100" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-3">
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-05.jpg" class="glightbox brand-img-box" data-glightbox="type: image;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-05.jpg" class="w-100" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-3">
+                                                    <a href="../assets/images/dashboard/ecommerce-dashboard/product/product-06.jpg" class="glightbox brand-img-box" data-glightbox="type: image;">
+                                                        <img src="../assets/images/dashboard/ecommerce-dashboard/product/product-06.jpg" class="w-100 rounded" alt="...">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-7">
+                                            <div class="my-3">
+                                                <h3 class="text-dark-800 f-w-700 txt-ellipsis-1">$58,902.90 <span
+                                                        class="f-s-16 f-w-500 text-secondary">Last week</span></h3>
+                                                <div class="custom-progress-container">
+                                                    <div class="progress-bar"></div>
+                                                    <div class="progress-bar"></div>
+                                                    <div class="progress-bar"></div>
+                                                    <div class="progress-bar"></div>
+                                                </div>
+                                            </div>
+
+                                            <h6>Choose tags</h6>
+                                            <div class="form-selectgroup products-tags-list my-3">
+                                                <label class="select-items">
+                                                    <input checked class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○  New Arrivals</span>
+                                                    </span>
+                                                </label>
+                                                <label class="select-items">
+                                                    <input class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○  Best Sellers</span>
+                                                    </span>
+                                                </label>
+                                                <label class="select-items">
+                                                    <input checked class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○  Trending</span>
+                                                    </span>
+                                                </label>
+                                                <label class="select-items">
+                                                    <input class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○  Exclusive</span>
+                                                    </span>
+                                                </label>
+                                                <label class="select-items">
+                                                    <input checked class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○  On Sale</span>
+                                                    </span>
+                                                </label>
+                                                <label class="select-items">
+                                                    <input class="select-input" type="checkbox">
+                                                    <span class="select-box">
+                                                        <span class="selectitem">○   Free Shipping</span>
+                                                    </span>
+                                                </label>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <!-- Body main section ends -->
+
+
+    <!-- tap on top -->
+    <div class="go-top">
+      <span class="progress-value">
+        <i class="ti ti-chevron-up"></i>
+      </span>
+    </div>
+
+    <!-- Footer Section starts-->
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9 col-12">
+                    <p class="footer-text f-w-600 mb-0">Copyright © 2025 ki-admin. All rights reserved 💖 V1.0.0</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="footer-text text-end">
+                        <a class="f-w-500 text-primary" href="mailto:teqlathemes@gmail.com"> Need Help <i
+                                class="ti ti-help"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section ends-->
+</div>
+
+<!-- modal -->
+
+<div class="modal" data-bs-backdrop="static" id="welcomeCard" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content welcome-card">
+
+            <div class="modal-body p-0">
+                <div>
+                    <img alt="img" class=" img-fluid" src="../assets/images/modals/welcome-bg.png" >
+                    <div>
+                        <img src="../assets/images/modals/welcome-rocket.png" class="modal-rocket img-fluid" alt="img">
+                    </div>
+                </div>
+                <div class="text-end position-absolute end-0 top-0 p-3">
+                    <i class="ti ti-x fs-5 text-dark f-w-600" data-bs-dismiss="modal"></i>
+                </div>
+                <div class="text-center position-relative welcome-card-content z-1 p-3">
+
+                    <h2 class="f-w-600"> Welcome !👋 </h2>
+                    <h6 class="f-s-15 text-dark f-w-500 mx-0 mx-sm-5"> Start Multipurpose, clean modern responsive bootstrap 5 admin template </h6>
+                    <ul class="modal-features-list">
+                        <li class="btn btn-light-primary flex-fill">Fully Responsive</li>
+                        <li class="btn btn-light-primary flex-fill">Built with bootstrap 5</li>
+                        <li class="btn btn-light-primary flex-fill">scss support</li>
+                        <li class="btn btn-light-primary flex-fill">Light & Dark Mode</li>
+                        <li class="btn btn-light-primary flex-fill">Enjoy Started!</li>
+                    </ul>
+                    <div class="mt-3 mb-4">
+                        <button class="btn btn-primary text-white btn-lg" data-bs-dismiss="modal" type="button">
+                            Get Started <i class="ti ti-chevrons-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal -->
+
+<!--customizer-->
+<div id="customizer"></div>
+
+<!-- latest jquery-->
+<script src="../assets/js/jquery-3.6.3.min.js"></script>
+
+<!-- Bootstrap js-->
+<script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+
+<!-- Simple bar js-->
+<script src="../assets/vendor/simplebar/simplebar.js"></script>
+
+<!-- phosphor js -->
+<script src="../assets/vendor/phosphor/phosphor.js"></script>
+
+<!-- Glight js -->
+<script src="../assets/vendor/glightbox/glightbox.min.js"></script>
+
+<!-- apexcharts-->
+<script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+<!-- Customizer js-->
+<script src="../assets/js/customizer.js"></script>
+
+<!-- Ecommerce js-->
+<script src="../assets/js/ecommerce_dashboard.js"></script>
+
+<!-- App js-->
+<script src="../assets/js/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,193 @@
+// Variáveis globais
+let statusEnvio = null;
+let cotacaoId = window.cotacaoData?.id || 0;
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Configuração dos eventos
+    setupEventListeners();
+
+    // Inicializa o botão de mapa
+    initMapButton();
+
+    // Inicializa a formatação dos campos numéricos
+    initNumberFields();
+});
+
+function initNumberFields() {
+    document.querySelectorAll('input[type="number"][step="0.01"]').forEach(input => {
+        // Formata ao carregar a página
+        if (input.value && !isNaN(parseFloat(input.value))) {
+            input.value = parseFloat(input.value).toFixed(2);
+        }
+
+        // Formata ao sair do campo (permite vazio)
+        input.addEventListener('blur', function () {
+            const val = this.value.trim();
+            if (val === '') {
+                this.value = '';
+            } else {
+                const parsed = parseFloat(val);
+                this.value = isNaN(parsed) ? '' : parsed.toFixed(2);
+            }
+        });
+    });
+}
+
+function initMapButton() {
+    const btnAbrirMapa = document.getElementById('btnAbrirMapa');
+    if (btnAbrirMapa) {
+        btnAbrirMapa.addEventListener('click', function (e) {
+            e.preventDefault();
+            abrirRotaNoMapa();
+        });
+    }
+}
+
+function abrirRotaNoMapa() {
+    const origem = document.getElementById('inputOrigem')?.value || '';
+    const destino = document.getElementById('inputDestino')?.value || '';
+
+    if (!origem || !destino) {
+        alert('Por favor, preencha tanto a origem quanto o destino');
+        return;
+    }
+
+    const origemFormatada = encodeURIComponent(origem);
+    const destinoFormatada = encodeURIComponent(destino);
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${origemFormatada}&destination=${destinoFormatada}&travelmode=driving`;
+    window.open(url, '_blank');
+}
+
+function setupEventListeners() {
+    const btnStatusFrete = document.getElementById('btnStatusFrete');
+    if (btnStatusFrete) {
+        btnStatusFrete.addEventListener('click', function (e) {
+            e.preventDefault();
+            openModal('modalChegada');
+        });
+    }
+
+    // Modal de Status de Chegada
+    document.getElementById('btnChegou')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        statusEnvio = 'chegou';
+        closeModal('modalChegada');
+        openModal('modalCobranca');
+    });
+
+    document.getElementById('btnVaiDireto')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        statusEnvio = 'vai_direto';
+        closeModal('modalChegada');
+        openModal('modalCobranca');
+    });
+
+    // Modal de Cobrança
+    document.getElementById('btn100')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        handlePayment(100);
+    });
+
+    document.getElementById('btn50')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        handlePayment(50);
+    });
+
+    // Validação dos campos numéricos no envio do formulário principal
+    const form = document.querySelector('form[method="post"]');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            const numericFields = form.querySelectorAll('input[type="number"][step="0.01"]');
+            let isValid = true;
+
+            numericFields.forEach(field => {
+                const val = field.value.trim();
+                if (val !== '' && isNaN(parseFloat(val))) {
+                    field.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    field.classList.remove('is-invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Por favor, corrija os valores inválidos antes de enviar.');
+            }
+        });
+    }
+}
+
+function handlePayment(percentual) {
+    const button = document.getElementById(percentual === 50 ? 'btn50' : 'btn100');
+
+    if (!statusEnvio) {
+        alert('Selecione o status de chegada primeiro');
+        return;
+    }
+
+    if (![50, 100].includes(percentual)) {
+        alert('Percentual inválido');
+        return;
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/quoteflow/cotacoes/${cotacaoId}/solicitar-pagamento/`;
+
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = getCSRFToken();
+    form.appendChild(csrfInput);
+
+    const statusInput = document.createElement('input');
+    statusInput.type = 'hidden';
+    statusInput.name = 'status_envio';
+    statusInput.value = statusEnvio;
+    form.appendChild(statusInput);
+
+    const percentualInput = document.createElement('input');
+    percentualInput.type = 'hidden';
+    percentualInput.name = 'percentual';
+    percentualInput.value = percentual;
+    form.appendChild(percentualInput);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    if (button) {
+        button.disabled = true;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processando...';
+    }
+}
+
+function openModal(modalId) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+        new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
+        }).show();
+    }
+}
+
+function closeModal(modalId) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) modalInstance.hide();
+    }
+}
+
+function getCSRFToken() {
+    const csrfInput = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (csrfInput?.value) return csrfInput.value;
+
+    const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken='))
+        ?.split('=')[1];
+
+    return cookieValue || '';
+}

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %} 
+
+{% block title %}Dashboard Analítico{% endblock title %}
+
+{% block page_title %}Dashboard Analítico{% endblock page_title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Total de Cotações</h6>
+                <p class="card-text fs-1 fw-bold text-primary">{{ total_cotacoes|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Cotações Aprovadas</h6>
+                <p class="card-text fs-1 fw-bold text-success">{{ total_aprovadas|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Em Negociação</h6>
+                <p class="card-text fs-1 fw-bold text-warning">{{ total_em_negociacao|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Cotações Finalizadas</h6>
+                <p class="card-text fs-1 fw-bold text-secondary">{{ total_finalizadas|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Valor Total Aprovado</h6>
+                <p class="card-text fs-2 fw-bold text-success">R$ {{ valor_total_aprovado|floatformat:2|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Valor Médio Aprovado</h6>
+                <p class="card-text fs-2 fw-bold text-info">R$ {{ valor_medio_aprovado|floatformat:2|intcomma }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Taxa de Conversão</h6>
+                <p class="card-text fs-2 fw-bold text-info">{{ taxa_conversao|floatformat:2 }}%</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header"><h5>Volume Mensal de Cotações ({{ titulo_periodo_grafico }})</h5></div>
+            <div class="card-body"><div id="volumeMensalChart"></div></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header"><h5>Distribuição de Status</h5></div>
+            <div class="card-body"><div id="statusChart"></div></div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><h5>Valor Aprovado por Mês ({{ titulo_periodo_grafico }})</h5></div>
+            <div class="card-body"><div id="valorMensalChart"></div></div>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5>Top 10 Canais de Aquisição</h5></div>
+            <div class="card-body"><div id="rastreioChart"></div></div>
+        </div>
+    </div>
+    {% if responsaveis_counts %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5>Top 10 Responsáveis (Volume)</h5></div>
+            <div class="card-body"><div id="responsaveisVolumeChart"></div></div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<div class="row mt-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5>Top 10 Origens</h5></div>
+            <div class="card-body"><div id="topOrigensChart"></div></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header"><h5>Top 10 Destinos</h5></div>
+            <div class="card-body"><div id="topDestinosChart"></div></div>
+        </div>
+    </div>
+</div>
+{% if responsaveis_valor %}
+<div class="row mt-4">
+     <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><h5>Top 10 Responsáveis (Valor Aprovado)</h5></div>
+            <div class="card-body"><div id="responsaveisValorChart"></div></div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{{ status_counts|json_script:"status-data" }}
+{{ recebidas_por_mes|json_script:"recebidas-data" }}
+{{ aprovadas_por_mes|json_script:"aprovadas-data" }}
+{{ finalizadas_por_mes|json_script:"finalizadas-data" }}
+{{ rastreio_counts|json_script:"rastreio-data" }}
+{{ valor_aprovado_por_mes|json_script:"valor-aprovado-mes-data" }}
+{{ top_origens|json_script:"top-origens-data" }}
+{{ top_destinos|json_script:"top-destinos-data" }}
+{% if responsaveis_counts %}{{ responsaveis_counts|json_script:"responsaveis-volume-data" }}{% endif %}
+{% if responsaveis_valor %}{{ responsaveis_valor|json_script:"responsaveis-valor-data" }}{% endif %}
+
+{% endblock content %}
+
+
+{% block page_scripts %}
+    <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+    <script>
+        // Injeta os dados em variáveis globais, usando default '[]' para segurança
+        var dadosStatus = JSON.parse(document.getElementById('status-data')?.textContent || '[]');
+        var dadosRecebidas = JSON.parse(document.getElementById('recebidas-data')?.textContent || '[]');
+        var dadosAprovadas = JSON.parse(document.getElementById('aprovadas-data')?.textContent || '[]');
+        var dadosFinalizadas = JSON.parse(document.getElementById('finalizadas-data')?.textContent || '[]');
+        var dadosValorPorMes = JSON.parse(document.getElementById('valor-aprovado-mes-data')?.textContent || '[]');
+        var dadosRastreio = JSON.parse(document.getElementById('rastreio-data')?.textContent || '[]');
+        var dadosTopOrigens = JSON.parse(document.getElementById('top-origens-data')?.textContent || '[]');
+        var dadosTopDestinos = JSON.parse(document.getElementById('top-destinos-data')?.textContent || '[]');
+        var dadosResponsaveisVolume = JSON.parse(document.getElementById('responsaveis-volume-data')?.textContent || '[]');
+        var dadosResponsaveisValor = JSON.parse(document.getElementById('responsaveis-valor-data')?.textContent || '[]');
+    </script>
+    <script src="{% static 'assets/custom/js/iniciar_graficos_dashboard.js' %}"></script>
+{% endblock page_scripts %}

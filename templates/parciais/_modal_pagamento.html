@@ -1,0 +1,55 @@
+{% comment %} Arquivo: templates/parciais/_modal_pagamento.html {% endcomment %}
+{% load money_filters %}
+
+<div class="modal fade" id="modalSolicitarPagamento" tabindex="-1" aria-labelledby="modalSolicitarPagamentoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" action="{% if cotacao %}{% url 'quoteflow:solicitar_pagamento' cotacao.proposta_id_url %}{% endif %}">
+                {% csrf_token %}
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title text-white" id="modalSolicitarPagamentoLabel">Solicitar Pagamento - #{{ cotacao.proposta_id_url }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="mb-3">
+                        <label for="status_mercadoria" class="form-label fw-bold">1. Status da Mercadoria</label>
+                        <select name="status_mercadoria" id="status_mercadoria" class="form-select" required>
+                            <option value="" disabled selected>Selecione uma opção...</option>
+                            <option value="chegou na unidade">Chegou na unidade</option>
+                            <option value="foi direto ao cliente">Foi direto ao cliente</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="percentual" class="form-label fw-bold">2. Percentual de Pagamento</label>
+                        <select name="percentual" id="percentual" class="form-select" required>
+                            <option value="100">100% ({{ cotacao.valor_proposta|default:'0'|br_money }})</option>
+                            <option value="50">50% ({{ valor_50_percento|br_money }})</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mensagem_adicional" class="form-label fw-bold">3. Mensagem Adicional (Opcional)</label>
+                        <textarea name="mensagem_adicional" id="mensagem_adicional" class="form-control" rows="3" placeholder="Ex: Se possível, me informe quando realizar a transferência."></textarea>
+                    </div>
+
+                    <div class="p-3 bg-light rounded border">
+                        <h6 class="fw-bold mb-3">Dados para Pagamento:</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Favorecido:</strong> {{ dados_bancarios.razao_social }}</li>
+                            <li><strong>Banco:</strong> {{ dados_bancarios.banco|default:"Não informado" }}</li>
+                            <li><strong>Agência/Conta:</strong> {{ dados_bancarios.agencia_conta|default:"Não informado" }}</li>
+                            <li><strong>PIX:</strong> {{ dados_bancarios.pix|default:"Não informado" }}</li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success"><i class="ti ti-send me-1"></i> Enviar Solicitação</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

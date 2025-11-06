@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atualizações Recentes{% endblock %}
+
+{% block page_title %}Atualizações Recentes{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+
+        {% if perms.quoteflow.pode_gerenciar_updates %}
+        <div class="text-end mb-3">
+            <a href="{% url 'quoteflow:update_post_create' %}" class="btn btn-primary">
+                <i class="ti ti-plus me-1"></i> Nova Atualização
+            </a>
+        </div>
+        {% endif %}
+
+        {% for update in updates %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title text-primary">{{ update.title }}</h4>
+                    {% if perms.quoteflow.pode_gerenciar_updates %}
+                    <div>
+                        <a href="{% url 'quoteflow:update_post_edit' update.pk %}" class="btn btn-sm btn-outline-secondary" title="Editar">
+                            <i class="ti ti-edit"></i>
+                        </a>
+                        <a href="{% url 'quoteflow:update_post_delete' update.pk %}" class="btn btn-sm btn-outline-danger" title="Excluir">
+                            <i class="ti ti-trash"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <p class="card-subtitle mb-3 text-muted">
+                    <i class="ti ti-calendar-due me-1"></i> Publicado em: {{ update.publication_date|date:"d/m/Y à\s H:i" }}
+                </p>
+                <div class="card-text">
+                    {{ update.content|safe }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="card">
+            <div class="card-body text-center">
+                <p class="mb-0">Nenhuma atualização recente encontrada.</p>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock content %}

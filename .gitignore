@@ -1,0 +1,40 @@
+# Arquivo: /web/mudancasja/.gitignore
+
+# Ambiente Virtual
+venv/
+
+# Arquivos de Upload (NUNCA ENVIE ISSO!)
+media/
+
+# Arquivos Estáticos Coletados
+static_root/
+
+# Banco de Dados
+db.sqlite3
+db.sqlite3_old
+*.sqlite3
+
+# Arquivos de Log e Cache
+__pycache__/
+*.pyc
+*.log
+
+# Modelos de Machine Learning e Dumps
+*.pkl
+*.json
+*.csv
+*.sql
+*.jar
+
+# Backups e Arquivos Comprimidos
+*.zip
+*.tgz
+*.gz
+
+# Configurações de IDE
+.vscode/
+.idea/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db

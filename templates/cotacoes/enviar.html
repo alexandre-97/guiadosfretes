@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Proposta Enviada com Sucesso</h1>
+
+    <div class="alert alert-success">
+        <h4><i class="fas fa-check-circle"></i> Dados da Cotação</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>ID:</strong> {{ cotacao.id }}</p>
+                <p><strong>Cliente:</strong> {{ cotacao.contato }}</p>
+                <p><strong>Valor:</strong> R$ {{ cotacao.valor_proposta|floatformat:2 }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Empresa:</strong> {{ empresa.nome_full }}</p>
+                <p><strong>Enviado para:</strong> {{ cotacao.email }}</p>
+                <p>
+                    <strong>WhatsApp:</strong> {{ cotacao.telefone }}
+                    {% if whatsapp_url %}
+                        <a href="{{ whatsapp_url }}" target="_blank" class="ml-2 text-success" title="Enviar via WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    {% endif %}
+                </p>
+                <p><strong>Status:</strong> {{ cotacao.status_envio }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title">Ações</h3>
+        </div>
+        <div class="card-body">
+            <a href="{{ proposta_url }}" class="btn btn-primary mr-2">
+                <i class="fas fa-download"></i> Baixar Proposta
+            </a>
+            <a href="{{ whatsapp_url }}" class="btn btn-success mr-2" target="_blank">
+                <i class="fab fa-whatsapp"></i> Enviar WhatsApp
+            </a>
+            <a href="{% url 'quoteflow:cotacao_edit' cotacao.id %}" class="btn btn-secondary">
+                <i class="fas fa-edit"></i> Editar Cotação
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Detalhes Técnicos</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Arquivo gerado:</strong> {{ cotacao.proposta_gerada.name }}</p>
+            <p><strong>Enviado por:</strong> {{ request.user.get_full_name }}</p>
+            <p><strong>Data/hora:</strong> {% now "d/m/Y H:i" %}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

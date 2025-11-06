@@ -1,0 +1,23 @@
+<div class="modal fade" id="designacaoMassaModal" tabindex="-1" aria-labelledby="designacaoMassaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="designacaoMassaModalLabel">Designar Responsável em Massa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione o usuário para ser o responsável por todas as cotações marcadas.</p>
+                <select class="form-select" id="select-responsavel-massa">
+                    <option value="">Selecione um usuário...</option>
+                    {% for usuario in usuarios_empresa %}
+                        <option value="{{ usuario.id }}">{{ usuario.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-designacao-massa">Confirmar Designação</button>
+            </div>
+        </div>
+    </div>
+</div>

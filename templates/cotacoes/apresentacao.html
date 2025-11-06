@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preciflow - Automatize suas Cotações de Frete</title>
+
+    <link rel="icon" href="{% static 'assets/images/logo/PF.png' %}" type="image-x-icon">
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/PF.png' %}" type="image/x-icon">
+
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/vendor/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body { font-family: 'Rubik', sans-serif; background-color: #f8f9fa; }
+        :root { --bs-primary: #0052cc; --bs-primary-rgb: 0, 82, 204; }
+        .navbar-brand img { height: 35px; }
+        .navbar { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        /* Estilo da Seção Principal (Hero) */
+        .hero-section { background-color: #ffffff; padding: 6rem 2rem; text-align: center; }
+        .hero-section h1 { font-weight: 700; font-size: 2.8rem; color: #212529; }
+        .hero-section .lead { font-size: 1.25rem; color: #495057; max-width: 700px; margin: 1.5rem auto 0 auto; }
+        .hero-section .lead-anti-ban { font-size: 1.1rem; color: #0052cc; font-weight: 600; margin-top: 1.5rem; }
+
+        /* Estilo para os ícones das funcionalidades */
+        .feature-icon { font-size: 3rem; color: var(--bs-primary); margin-bottom: 1rem; }
+        .feature-card { border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s ease, box-shadow 0.2s ease; background-color: #ffffff; border-radius: 0.5rem; }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+        /* Estilo para a lista de vantagens */
+        .benefit-list { list-style: none; padding-left: 0; }
+        .benefit-list li { display: flex; align-items: flex-start; font-size: 1.1rem; margin-bottom: 1rem; }
+        .benefit-list .bi { color: var(--bs-success); font-size: 1.5rem; margin-right: 0.75rem; margin-top: 0.1rem; }
+        .benefit-card { background-color: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: none; border-radius: 0.5rem; }
+
+        /* Seção de CTA (Call to Action) */
+        .cta-section { background-color: var(--bs-primary); color: #ffffff; border-radius: 0.5rem; }
+        .cta-section h2 { font-weight: 700; }
+        .cta-section .btn-light { font-weight: 600; padding: 0.8rem 2rem; font-size: 1.1rem; }
+        
+        /* Footer customizado */
+        .footer-simple { padding: 2rem 0; text-align: center; color: #6c757d; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'quoteflow:apresentacao' %}">
+                <img alt="Preciflow Logo" src="{% static 'assets/images/logo/PFlow.png' %}" style="height: 35px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#funcionalidades">Funcionalidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'quoteflow:planos' %}">Planos</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'perfil:login' %}">Entrar</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary btn-sm" href="{% url 'quoteflow:cadastro' %}">Cadastre-se</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4">Pare de Perder Fretes. Responda Antes da Concorrência.</h1>
+            <p class="lead">
+                O Preciflow é a plataforma de automação que transforma seus leads de frete em propostas enviadas em segundos. Usamos Inteligência Artificial para precificar e nossa robusta infraestrutura de API para garantir que seu cliente receba sua cotação primeiro.
+            </p>
+            <p class="lead-anti-ban">
+                <i class="bi bi-shield-check"></i>
+                Nossa infraestrutura de envio inteligente reduz o risco de banimentos do WhatsApp, protegendo seu principal canal de vendas.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h2 class="fw-bold mb-3">O "Buraco Negro" das Cotações</h2>
+                    <p class="fs-5 text-muted">
+                        No mercado de transportes, velocidade é tudo. Um lead de frete esfria em minutos. Além de lento, enviar cotações manualmente, uma por uma, pode ser sinalizado como spam e levar ao **bloqueio do seu número de WhatsApp**, parando sua operação.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" id="funcionalidades">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Da Solicitação ao Envio em Piloto Automático</h2>
+                <p class="lead text-muted">O Preciflow é o "cérebro" e o "motor" que sua equipe comercial precisa.</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4 d-flex">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <div class="feature-icon">
+                                <i class="bi bi-envelope-paper"></i>
+                            </div>
+                            <h4 class="fw-bold">Leitura e Gestão Inteligente</h4>
+                            <p class="text-muted mb-0">
+                                Nossa plataforma monitora sua caixa de e-mails (IMAP). Assim que um pedido de cotação chega, o Preciflow o captura, organiza e já o disponibiliza em seu painel de controle, pronto para a ação.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 d-flex">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <div class="feature-icon">
+                                <i class="bi bi-cpu"></i>
+                            </div>
+                            <h4 class="fw-bold">Precificação com IA</h4>
+                            <p class="text-muted mb-0">
+                                Não perca tempo (ou dinheiro) em planilhas. Nosso motor de Machine Learning sugere o preço ideal para aquela rota, peso e cubagem, garantindo sua margem de lucro e competitividade.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 d-flex">
+                    <div class="card h-100 p-4 text-center feature-card">
+                        <div class="card-body">
+                            <div class="feature-icon">
+                                <i class="bi bi-whatsapp"></i>
+                            </div>
+                            <h4 class="fw-bold">Envio Multicanal Seguro</h4>
+                            <p class="text-muted mb-0">
+                                Dispare cotações com segurança. Com um clique, enviamos a proposta por E-mail e WhatsApp, usando uma infraestrutura que humaniza os envios e protege seu número contra bloqueios.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="card benefit-card">
+                        <div class="card-body p-4 p-md-5">
+                            <h2 class="fw-bold mb-4">Por que as Transportadoras que usam Preciflow Convertem Mais?</h2>
+                            <p class="text-muted fs-5 mb-0">
+                                Ao automatizar tarefas repetitivas, sua equipe comercial ganha o ativo mais valioso de todos: tempo. Tempo para focar em negociar, construir relacionamento e fechar mais fretes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card benefit-card">
+                        <div class="card-body p-4 p-md-5">
+                            <ul class="benefit-list mb-0">
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <div>
+                                        <strong class="d-block">Aumento Real na Taxa de Conversão</strong>
+                                        Responda 10x mais rápido e seja a primeira proposta que o cliente lê.
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <div>
+                                        <strong class="d-block">Proteção de WhatsApp (Anti-Ban)</strong>
+                                        Nossa tecnologia de envio inteligente protege e diminui o risco do seu número de bloqueios.
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <div>
+                                        <strong class="d-block">Lucratividade Otimizada</strong>
+                                        Nossa IA de Precificação ajuda você a evitar prejuízos e maximizar sua margem.
+                                    </div>
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <div>
+                                        <strong class="d-block">Redução de Custo Operacional</strong>
+                                        Libere sua equipe da digitação. Deixe que eles foquem em vender, não em copiar e colar.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <section class="cta-section p-5 text-center">
+                        <div class="container">
+                            <h2 class="mb-4">Pronto para Transformar seus Fretes em Lucro?</h2>
+                            <p class="lead mb-4">
+                                Conheça nossos planos e veja como o Preciflow pode se pagar em um único frete fechado.
+                            </p>
+                            <a href="{% url 'quoteflow:planos' %}" class="btn btn-light btn-lg">
+                                Conheça Nossos Planos
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="footer-simple">
+        <div class="container">
+            <p class="mb-0">Copyright © 2025 PreciFlow. Todos os direitos reservados.</p>
+            <p class="mb-0">Desenvolvido por Alexandre</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'assets/vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

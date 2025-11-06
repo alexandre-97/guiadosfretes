@@ -1,0 +1,416 @@
+/* Estilos existentes */
+.product-price-block {
+    font-size: 1.5rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+}
+
+.product-old-price {
+    text-decoration: line-through;
+    font-size: 1rem;
+}
+
+.border-top-light-custom{
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media (min-width: 62em) {
+    .card-columns {
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
+        column-count: 3;
+    }
+}
+
+ul.errorlist  {
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+    font-size: 13px;
+    color: red;
+    display: block;
+}
+
+ul.errorlist li {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group textarea {
+    width: 100%;
+}
+.nav-cart, .nav-cart a {
+    color: #fff;
+    text-decoration: none;
+}
+.cart-img {
+    max-width: 150px;
+}
+
+/* Estilos gerais */
+.container {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    color: #333;
+}
+
+/* Melhorias no cabeçalho */
+.text-center h4 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+/* Melhorias nos campos do formulário */
+.form-label {
+    font-size: 0.85rem;
+    color: #2c3e50;
+    margin-bottom: 4px;
+}
+
+.form-control, .form-select {
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Botões mais intuitivos */
+.btn {
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+/* Destaque para campos importantes */
+.fw-bold {
+    color: #2c3e50;
+}
+
+/* Melhorias nas tabelas e grupos de input */
+.input-group {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Feedback visual para status */
+.bg-success.bg-opacity-10 {
+    background-color: rgba(46, 204, 113, 0.1) !important;
+}
+
+.bg-danger.bg-opacity-10 {
+    background-color: rgba(231, 76, 60, 0.1) !important;
+}
+
+.bg-warning.bg-opacity-10 {
+    background-color: rgba(241, 196, 15, 0.1) !important;
+}
+
+.bg-info.bg-opacity-10 {
+    background-color: rgba(52, 152, 219, 0.1) !important;
+}
+
+/* Melhorias na seção de observações */
+.bg-light {
+    background-color: #f8f9fa !important;
+    border-left: 3px solid #3498db;
+}
+
+/* Espaçamento e organização */
+.row {
+    margin-bottom: 12px;
+}
+
+/* Destaque para campos monetários */
+.input-group-sm .input-group-text {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+/* Botões de navegação */
+.btn-outline-secondary {
+    border-color: #bdc3c7;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #ecf0f1;
+}
+
+/* Responsividade melhorada */
+@media (max-width: 768px) {
+    .col-md-6, .col-md-4, .col-md-3 {
+        margin-bottom: 10px;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+.cotacao-wrapper {
+  max-width: 100%;
+  padding: 1rem;
+  font-size: 0.88rem;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.grid-form .field {
+  display: flex;
+  flex-direction: column;
+}
+
+.descricao {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-grid {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.info-box {
+  margin-top: 1rem;
+  background-color: #f8f9fa;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+@media (max-width: 992px) {
+  .grid-form {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mini-grid {
+    grid-template-columns: 1fr;
+  }
+  .descricao {
+    grid-column: span 2;
+  }
+}
+
+.form-control-sm, .input-group-sm .form-control, .input-group-sm .btn {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+.form-control, .form-select, .input-group-text, .btn {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    height: auto;
+}
+
+.form-label {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+textarea.form-control {
+    min-height: 180px;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+    border-left: 4px solid #0d6efd;
+}
+
+.btn {
+    min-width: 100px;
+}
+
+.input-group .btn {
+    min-width: auto;
+}
+
+/* NOVOS ESTILOS PARA STATUS DE COTAÇÃO E ENVIO */
+
+/* Estilos para badges */
+.badge {
+    font-size: 0.85em;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+}
+
+/* Status de Cotação */
+.badge-status-aprovada {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.badge-status-reprovada {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+}
+
+.badge-status-negociacao {
+    background-color: #6c757d; /* Cinza */
+    color: white;
+}
+
+/* Status de Envio */
+.badge-envio-enviado {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.badge-envio-falta-info {
+    background-color: #ffc107; /* Amarelo */
+    color: #212529;
+}
+
+.badge-envio-aguardando {
+    background-color: #17a2b8; /* Azul */
+    color: white;
+}
+
+.badge-envio-rejeitado {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+}
+
+.badge-envio-duplicada {
+    background-color: #343a40; /* Preto */
+    color: white;
+}
+
+.badge-envio-padrao {
+    background-color: #6c757d; /* Cinza */
+    color: white;
+}
+
+/* Melhorias na tabela de cotações */
+.table-cotacoes {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-cotacoes th {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-cotacoes td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-cotacoes tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 768px) {
+    .table-cotacoes {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .badge {
+        font-size: 0.75em;
+        padding: 0.25em 0.5em;
+    }
+}
+
+/* Efeito hover para botões de ação */
+.btn-action {
+    transition: transform 0.2s ease;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+}
+
+/* Espaçamento adicional para seções */
+.section-spacing {
+    margin-bottom: 2rem;
+}
+
+/* Estilo para valores monetários */
+.monetary-value {
+    font-weight: 600;
+    color: #28a745;
+}
+
+/* Estilo para datas */
+.date-value {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+  /* Estilos opcionais para melhorar a visualização */
+  .badge {
+    font-size: 0.85em;
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+  }
+  .bg-warning.text-dark {
+    color: #212529 !important;
+  }
+  #cotacoesSelecionadas {
+  max-height: 300px;
+  overflow-y: auto;
+}

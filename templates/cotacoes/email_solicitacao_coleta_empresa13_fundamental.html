@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORMULÁRIO DE COLETA: Proposta {{ numero_proposta }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f4f4f4; font-family: 'Roboto', Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { padding: 20px; text-align: center; }
+        .logo { max-width: 120px; margin-bottom: 15px; }
+        .card { background-color: #ffffff; border-radius: 8px; padding: 30px; margin: 0 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .greeting { font-size: 18px; font-weight: 500; color: #333333; }
+        .main-text { font-size: 16px; color: #555555; line-height: 1.6; }
+        .summary-box { background-color: #f9f9f9; border: 1px solid #eeeeee; border-radius: 8px; margin: 25px 0; padding: 20px; }
+        
+        /* Estilos específicos para este formulário */
+        .form-field { font-size: 15px; margin-bottom: 14px; color: #555555; }
+        .form-field strong { color: #333333; display: block; margin-bottom: 4px; }
+        .form-field span { color: #1a1a1a; font-weight: 500; }
+
+        .footer { padding: 20px; text-align: center; font-size: 12px; color: #888888; }
+        .footer p { margin: 5px 0; }
+        @media screen and (max-width: 600px) {
+            .card, .container { padding: 0 !important; margin: 0 !important; width: 100% !important; }
+            .card-inner { padding: 20px !important; }
+        }
+    </style>
+</head>
+<body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td bgcolor="#f4f4f4" align="center" style="padding: 0 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" class="container">
+                    
+                    <tr>
+                        <td align="center" valign="top">
+                            <div class="header">
+                                {% if empresa.logo %}
+                                    <img src="{{ empresa.logo.url }}" alt="Logo {{ empresa.nome_full }}" class="logo">
+                                {% else %}
+                                    <h1 style="color: #444; margin: 0;">{{ empresa.nome_full }}</h1>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" valign="top">
+                            <div class="card">
+                                <div class="card-inner">
+                                    <p class="greeting">Olá,</p>
+                                    <p class="main-text">Por gentileza preencher dados abaixo para agendamento da coleta referente à proposta <strong>#{{ numero_proposta }}</strong>:</p>
+                                    
+                                    <div class="summary-box">
+                                        <div class="form-field"><strong>Data que o material estará liberado para coletar:</strong></div>
+                                        <div class="form-field"><strong>Horário de funcionamento do local de coleta (informar horário de almoço):</strong></div>
+                                        <div class="form-field"><strong>Horário de funcionamento do local de entrega (informar horário de almoço):</strong></div>
+                                        <div class="form-field"><strong>CPF ou CNPJ do remetente:</strong></div>
+                                        <div class="form-field"><strong>CPF ou CNPJ do destinatário:</strong></div>
+                                        <div class="form-field"><strong>CPF ou CNPJ do pagador do frete:</strong></div>
+                                        <div class="form-field"><strong>Endereço completo de coleta:</strong> <span>{{ cotacao.origem|default:"(não informado)" }}</span></div>
+                                        <div class="form-field"><strong>Endereço completo de entrega:</strong> <span>{{ cotacao.destino|default:"(não informado)" }}</span></div>
+                                        <div class="form-field"><strong>Nome e Telefone para contato do remetente:</strong> <span>{{ cotacao.contato|default:"" }} - {{ cotacao.telefone|default:"" }}</span></div>
+                                        <div class="form-field"><strong>Nome e Telefone para contato do destinatário:</strong></div>
+                                        <div class="form-field"><strong>Tipo de material:</strong></div>
+                                        <div class="form-field"><strong>Preferência de veículo aberto ou fechado:</strong></div>
+                                    </div>
+
+                                    <p class="main-text">Agradecemos pela colaboração e aguardamos seu retorno para prosseguir.</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" valign="top">
+                            <div class="footer">
+                                <p><strong>{{ assinatura_digital|linebreaksbr }}</strong></p>
+                                <p>{{ empresa.nome_full }}</p>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

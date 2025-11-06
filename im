@@ -1,0 +1,73 @@
+# test_pdf_generation.py
+import os
+import django
+from datetime import datetime
+
+# --- 1. Configurar o Ambiente Django ---
+# Isso permite que o script acesse seus models e configurações
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'seu_projeto.settings') # <-- MUDE 'seu_projeto' para o nome da sua pasta de settings
+django.setup()
+
+# --- 2. Importar os Módulos Necessários ---
+from cotacoes.models import Cotacao
+from perfil.models import Perfil  # Precisamos do Perfil para o usuário
+from cotacoes.utils import criar_replacements, gerar_proposta_word
+from django.contrib.auth import get_user_model
+
+print("Ambiente Django configurado. Iniciando teste de geração de PDF...")
+
+# --- 3. Definir os Parâmetros do Teste ---
+# Escolha uma cotação e um usuário do seu banco de dados local para o teste
+COTACAO_ID_PARA_TESTE = 123  # <-- MUDE para um ID de cotação que exista no seu BD
+USER_ID_PARA_TESTE = 1      # <-- MUDE para o ID de um usuário que tenha um perfil associado
+
+# Onde os arquivos de teste serão salvos
+OUTPUT_TEST_DIR = os.path.join(os.path.dirname(__file__), 'test_outputs')
+os.makedirs(OUTPUT_TEST_DIR, exist_ok=True)
+
+try:
+    # --- 4. Simular o Processo Real ---
+    print(f"Buscando Cotação ID: {COTACAO_ID_PARA_TESTE} e Usuário ID: {USER_ID_PARA_TESTE}")
+    cotacao = Cotacao.objects.get(pk=COTACAO_ID_PARA_TESTE)
+    User = get_user_model()
+    user = User.objects.get(pk=USER_ID_PARA_TESTE)
+    
+    # Garante que o usuário tem um perfil e empresa
+    if not hasattr(user, 'perfil') or not user.perfil.empresa:
+        raise Exception(f"O usuário {user.username} não tem um perfil ou empresa configurado.")
+
+    empresa_usuario = user.perfil.empresa
+    
+    # Pega o caminho do template a partir da empresa do usuário
+    if not empresa_usuario.template_proposta:
+        raise Exception(f"A empresa {empresa_usuario.nome} não tem um template de proposta configurado.")
+    
+    template_path = empresa_usuario.template_proposta.path
+    print(f"Usando template: {template_path}")
+
+    # Gera o número da proposta e as substituições
+    numero_proposta = f"TESTE-{cotacao.id}"
+    replacements = criar_replacements(cotacao, numero_proposta, user)
+
+    # --- 5. Executar a Geração do Word e PDF ---
+    # Esta função agora usa sua nova lógica de substituição
+    print("Gerando proposta (DOCX e PDF)...")
+    output_pdf_path, output_pdf_filename, _ = gerar_proposta_word(
+        cotacao=cotacao,
+        replacements=replacements,
+        empresa_usuario=empresa_usuario,
+        template_path=template_path
+    )
+    
+    print("-" * 50)
+    print("✅ SUCESSO!")
+    print(f"Proposta em PDF gerada com sucesso em: {output_pdf_path}")
+    print("Abra o arquivo e verifique se a formatação da cor no rodapé está correta.")
+    print("-" * 50)
+
+except Cotacao.DoesNotExist:
+    print(f"ERRO: Cotação com ID {COTACAO_ID_PARA_TESTE} não encontrada no banco de dados.")
+except User.DoesNotExist:
+    print(f"ERRO: Usuário com ID {USER_ID_PARA_TESTE} não encontrado.")
+except Exception as e:
+    print(f"Ocorreu um erro inesperado: {e}")

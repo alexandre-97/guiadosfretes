@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% comment %} NOVO ARQUIVO: templates/cotacoes/emitir_cte_form.html {% endcomment %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block page_title %}{{ titulo }}{% endblock %}
+
+{% block page_css %}
+<style>
+    /* Estiliza a lista de CTe's para parecer melhor que checkboxes padrão */
+    .cte-checkbox-list {
+        max-height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        background-color: var(--bs-body-bg);
+    }
+    .cte-checkbox-list label {
+        display: block;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.25rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .cte-checkbox-list label:hover {
+        background-color: #f8f9fa;
+    }
+    .cte-checkbox-list input[type="checkbox"] {
+        margin-right: 10px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" novalidate id="cteForm">
+    {% csrf_token %}
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex flex-column gap-4">
+
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">1. Documento de Referência</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label" for="{{ form.chave_nfe.id_for_label }}">{{ form.chave_nfe.label }}</label>
+                                {% render_field form.chave_nfe %}
+                                {% if form.chave_nfe.errors %}<div class="invalid-feedback d-block">{{ form.chave_nfe.errors.0 }}</div>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">2. Dados do Remetente (Quem Envia)</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">{{ form.remetente_nome.label }}</label>{% render_field form.remetente_nome %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.remetente_cnpj_cpf.label }}</label>{% render_field form.remetente_cnpj_cpf %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.remetente_ie.label }}</label>{% render_field form.remetente_ie %}</div>
+                            <div class="col-md-6"><label class="form-label">{{ form.remetente_endereco.label }}</label>{% render_field form.remetente_endereco %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.remetente_bairro.label }}</label>{% render_field form.remetente_bairro %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.remetente_cep.label }}</label>{% render_field form.remetente_cep %}</div>
+                            <div class="col-md-9"><label class="form-label">{{ form.remetente_municipio.label }}</label>{% render_field form.remetente_municipio %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.remetente_uf.label }}</label>{% render_field form.remetente_uf %}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">3. Dados do Destinatário (Quem Recebe)</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">{{ form.destinatario_nome.label }}</label>{% render_field form.destinatario_nome %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.destinatario_cnpj_cpf.label }}</label>{% render_field form.destinatario_cnpj_cpf %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.destinatario_ie.label }}</label>{% render_field form.destinatario_ie %}</div>
+                            <div class="col-md-6"><label class="form-label">{{ form.destinatario_endereco.label }}</label>{% render_field form.destinatario_endereco %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.destinatario_bairro.label }}</label>{% render_field form.destinatario_bairro %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.destinatario_cep.label }}</label>{% render_field form.destinatario_cep %}</div>
+                            <div class="col-md-9"><label class="form-label">{{ form.destinatario_municipio.label }}</label>{% render_field form.destinatario_municipio %}</div>
+                            <div class="col-md-3"><label class="form-label">{{ form.destinatario_uf.label }}</label>{% render_field form.destinatario_uf %}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">4. Dados Fiscais</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.valor_total_servico.label }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">R$</span>
+                                    {% render_field form.valor_total_servico %}
+                                </div>
+                                {% if form.valor_total_servico.errors %}<div class="invalid-feedback d-block">{{ form.valor_total_servico.errors.0 }}</div>{% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">{{ form.cfop.label }}</label>
+                                {% render_field form.cfop %}
+                                {% if form.cfop.errors %}<div class="invalid-feedback d-block">{{ form.cfop.errors.0 }}</div>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}" class="btn btn-secondary">
+                        <i class="ti ti-arrow-left me-1"></i> Cancelar e Voltar
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-action-spinner">
+                        <i class="ti ti-send me-1"></i> Salvar e Enviar CTe para SEFAZ
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}
+
+{% block page_scripts %}
+    {{ block.super }} 
+    <script src="{% static 'assets/custom/js/spinner.js' %}"></script>
+    {# (Você pode adicionar JS aqui para máscaras de CNPJ, CEP, etc.) #}
+{% endblock %}

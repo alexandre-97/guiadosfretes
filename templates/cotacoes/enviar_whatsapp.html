@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h4><i class="fab fa-whatsapp"></i> Enviar Proposta por WhatsApp</h4>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <strong>Instruções:</strong>
+                <ol>
+                    <li>Verifique abaixo o número e a mensagem</li>
+                    <li>Clique no botão verde "Abrir WhatsApp"</li>
+                    <li>Confirme o envio no aplicativo do WhatsApp</li>
+                </ol>
+                {% if not request.user_agent.is_mobile %}
+                <p class="mb-0 text-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Você está usando um computador. 
+                    Certifique-se de que o WhatsApp Web está aberto ou escaneie o QR code no seu celular.
+                </p>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Número do WhatsApp:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" value="{{ numero_formatado }}" readonly id="numero-telefone">
+                    <button class="btn btn-outline-secondary" onclick="copyToClipboard('numero-telefone')">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">Mensagem:</label>
+                <textarea id="mensagem-whatsapp" class="form-control" rows="15" readonly>{{ mensagem }}</textarea>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <button onclick="copyToClipboard('mensagem-whatsapp')" class="btn btn-secondary">
+                        <i class="fas fa-copy"></i> Copiar Mensagem
+                    </button>
+                </div>
+                
+                <div>
+                    <a href="{{ whatsapp_url }}" class="btn btn-success btn-lg" target="_blank" id="whatsapp-link">
+                        <i class="fab fa-whatsapp"></i> Abrir WhatsApp
+                    </a>
+                    <a href="{% url 'quoteflow:cotacao_edit' pk=cotacao.pk %}" class="btn btn-outline-secondary">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            
+            {% if not request.user_agent.is_mobile %}
+            <div class="mt-3 text-center">
+                <small class="text-muted">
+                    Dica: Pressione Ctrl+Clique (Windows) ou Command+Clique (Mac) no botão do WhatsApp 
+                    para abrir em uma nova aba
+                </small>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    
+    try {
+        navigator.clipboard.writeText(element.value).then(() => {
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        });
+    } catch (err) {
+        // Fallback para browsers mais antigos
+        document.execCommand('copy');
+    }
+}
+
+// Foca no link do WhatsApp para facilitar o acesso via teclado
+document.addEventListener('DOMContentLoaded', () => {
+    const whatsappLink = document.getElementById('whatsapp-link');
+    whatsappLink.focus();
+    
+    // Abre automaticamente em dispositivos móveis
+    if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.location.href = whatsappLink.href;
+    }
+});
+</script>
+{% endblock %}

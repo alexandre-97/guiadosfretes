@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load money_filters %} {% load static %}
+
+{% block titulo %}Solicitar Pagamento - Cotação #{{ cotacao.proposta_id_url }}{% endblock %}
+
+{% block conteudo %}
+<div class="container" style="max-width: 600px; margin-top: 2rem; margin-bottom: 2rem;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Solicitar Pagamento - Cotação #{{ cotacao.proposta_id_url }}</h5>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'quoteflow:solicitar_pagamento' cotacao.proposta_id_url %}">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="status_mercadoria" class="form-label fw-bold">Status da Mercadoria</label>
+                    <select name="status_mercadoria" id="status_mercadoria" class="form-select" required>
+                        <option value="" disabled selected>Selecione uma opção...</option>
+                        <option value="chegou na unidade">Chegou na unidade</option>
+                        <option value="foi direto ao cliente">Foi direto ao cliente</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="percentual" class="form-label fw-bold">Percentual de Pagamento</label>
+                    <select name="percentual" id="percentual" class="form-select" required>
+                        <option value="100">100% do valor ({{ cotacao.valor_proposta|br_money }})</option>
+                        <option value="50">50% do valor ({{ valor_50_percento|br_money }})</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="mensagem_adicional" class="form-label fw-bold">Mensagem Adicional (Opcional)</label>
+                    <textarea name="mensagem_adicional" id="mensagem_adicional" class="form-control" rows="3" 
+                              placeholder="Ex: Se possível, me informe por gentileza quando realizar a transferência para agilizarmos a entrega."></textarea>
+                </div>
+
+                <div class="mb-3 p-3 bg-light rounded border">
+                    <h6 class="fw-bold mb-3">Dados Bancários da Empresa:</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Favorecido: <strong>{{ dados_bancarios.razao_social }}</strong></li>
+                        <li class="mb-2">Banco:<strong>{{ dados_bancarios.banco|default:"Não informado" }}</strong></li>
+                        <li class="mb-2">Agência/Conta: <strong>{{ dados_bancarios.agencia_conta|default:"Não informado" }}</strong></li>
+                        <li>PIX: <strong>{{ dados_bancarios.pix|default:"Não informado" }}</strong></li>
+                    </ul>
+                    {% if not dados_bancarios.banco or not dados_bancarios.agencia_conta or not dados_bancarios.pix %}
+                    <div class="alert alert-warning mt-3 mb-0 p-2">
+                        <small><i class="fas fa-exclamation-triangle me-1"></i> Atenção: Alguns dados bancários estão incompletos.</small>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-paper-plane me-2"></i> Enviar Solicitação
+                    </button>
+                    <a href="{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

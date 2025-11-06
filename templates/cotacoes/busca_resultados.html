@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Resultados da Busca | {% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Resultados da busca por "{{ request.GET.termo }}"</h2>
+
+{% if cotacoes %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-auto">Nº Cotação</th>
+                <th class="col-1">Empresa</th>
+                <th class="col-1">Responsável</th>
+                <th class="col-1">Status Cotação</th>
+                <th class="col-1">Status Envio</th>
+                <th class="col-2">Origem</th>
+                <th class="col-2">Destino</th>
+                <th class="col-1">Valor</th>
+                <th class="col-1">Data</th>
+                <th class="col-2">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cotacao in cotacoes %}
+            <tr>
+                <td><strong>#{{ cotacao.proposta_id_url }}</strong></td>
+                <td><div class="truncate-text" title="{{ cotacao.empresa.nome|default:"-" }}">{{ cotacao.empresa.nome|default:"-" }}</div></td>
+                <td><div class="truncate-text" title="{{ cotacao.responsavel.username|default:"-" }}">{{ cotacao.responsavel.username|default:"-" }}</div></td>
+                <td><span class="badge {% if 'Aprovada' in cotacao.status_cotacao %}bg-success{% elif 'Reprovada' in cotacao.status_cotacao or 'Cancelada' in cotacao.status_cotacao %}bg-danger{% else %}bg-secondary{% endif %}">{{ cotacao.status_cotacao|default:"-" }}</span></td>
+                <td><span class="badge {% if 'Enviado' in cotacao.status_envio %}bg-success{% elif 'Faltam' in cotacao.status_envio or 'Falta' in cotacao.status_envio %}bg-warning text-dark{% elif 'Aguardando' in cotacao.status_envio %}bg-info{% elif 'Rejeitada' in cotacao.status_envio or 'Negado' in cotacao.status_envio %}bg-danger{% elif 'Duplicada' in cotacao.status_envio %}bg-dark{% else %}bg-secondary{% endif %}">{{ cotacao.status_envio|default:"-" }}</span></td>
+                <td><div class="truncate-text" title="{{ cotacao.origem }}">{{ cotacao.origem }}</div></td>
+                <td><div class="truncate-text" title="{{ cotacao.destino }}">{{ cotacao.destino }}</div></td>
+                <td>{{ cotacao.valor_proposta_formatado }}</td>
+                <td class="text-nowrap">{{ cotacao.data_recebimento|date:"d/m/Y H:i" }}</td>
+                <td class="actions-column">
+                    <a href="{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}" class="btn btn-primary btn-sm">Editar</a>
+                    <a href="{% url 'quoteflow:enviar_cotacao' cotacao.proposta_id_url %}" class="btn btn-success btn-sm">Enviar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+    {% include 'parciais/_pagination.html' %} {# <-- VOLTE A USAR O INCLUDE ORIGINAL #}
+    
+{% else %}
+    <p class="text-muted">Nenhuma cotação encontrada para o termo "{{ request.GET.termo }}".</p>
+{% endif %}
+
+
+<style>
+    .table {
+        width: 100%;
+        table-layout: auto; 
+    }
+    .truncate-text {
+        max-width: 150px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .actions-column {
+        white-space: nowrap;
+    }
+</style>
+
+{% endblock content %}

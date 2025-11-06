@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Nova Cotação{% endblock %}
+
+{% block page_title %}Nova Cotação{% endblock %}
+
+{% block page_css %}
+<style>
+    /* Cores personalizadas para status que não são padrão no Bootstrap */
+    .bg-purple { background-color: #6f42c1 !important; }
+    .bg-yellow { background-color: #ffc107 !important; }
+
+    /* Garante que o modal fique na frente de tudo */
+    .modal-backdrop {
+        z-index: 1050;
+    }
+    #cubagemModal {
+        z-index: 1055;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" novalidate id="cotacaoForm">
+    {% csrf_token %}
+
+    <div class="row g-4">
+        <div class="col-lg-3 order-lg-1">
+            <div class="position-sticky" style="top: 80px;">
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Ações Principais</h5></div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary"><i class="ti ti-device-floppy me-1"></i> Salvar Cotação</button>
+                            <a href="{% url 'quoteflow:cotacao_list' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 order-lg-2">
+            <div class="d-flex flex-column gap-4">
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Dados do Cliente e Frete</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Tipo de Frete</label>{{ form.tipo_frete }}</div>
+                            <div class="col-md-6"><label class="form-label">Contato</label>{{ form.contato }}</div>
+                            <div class="col-md-6"><label class="form-label">Telefone</label>{{ form.telefone }}</div>
+                            <div class="col-md-6"><label class="form-label">Email</label>{{ form.email }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Origem e Destino</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label class="form-label">Origem</label>{% render_field form.origem id="inputOrigem" %}</div>
+                            <div class="col-md-6"><label class="form-label">Destino</label>{% render_field form.destino id="inputDestino" %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Detalhes da Carga</h5></div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3"><label class="form-label">Nº Itens</label>{{ form.volumes }}</div>
+                            <div class="col-md-3"><label class="form-label">Peso (KG)</label>{{ form.peso }}</div>
+                            <div class="col-md-3">
+                                <label class="form-label">Valor NF (R$)</label>
+                                <div class="input-group"><span class="input-group-text">R$</span>{{ form.valor_mercadoria }}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Cubagem (M³)</label>
+                                <div class="input-group">{{ form.cubagem }}</div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="form-label">Descrição / Medidas</label>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mb-1" data-bs-toggle="modal" data-bs-target="#cubagemModal"><i class="ti ti-calculator"></i> Calcular</button>
+                                </div>
+                                {{ form.observacao }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 order-lg-3">
+            <div class="position-sticky" style="top: 80px;">
+                <div class="card">
+                    <div class="card-header"><h5 class="card-title">Status e Prazos</h5></div>
+                    <div class="card-body">
+                        <div class="mb-3"><label class="form-label">Rastreio</label>{{ form.rastreio }}</div>
+                        <div class="mb-3"><label class="form-label">Status Cotação</label>{{ form.status_cotacao }}</div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Envio</label>
+                            {% render_field form.status_envio class+="form-select bg-yellow text-dark" %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Prazo Coleta</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary decrement-prazo-coleta" type="button"><i class="ti ti-minus"></i></button>
+                                <input type="text" name="prazo_coleta" class="form-control text-center" value="{{ form.prazo_coleta.value|default:'Até 24 horas' }}" id="{{ form.prazo_coleta.id_for_label|default:'id_prazo_coleta' }}">
+                                <button class="btn btn-outline-primary increment-prazo-coleta" type="button"><i class="ti ti-plus"></i></button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Prazo Entrega</label>
+                            <div class="input-group">
+                                <button class="btn btn-outline-primary decrement-prazo-entrega" type="button"><i class="ti ti-minus"></i></button>
+                                <input type="text" name="prazo_entrega" class="form-control text-center" value="{{ form.prazo_entrega.value|default:'1 a 3 dias úteis' }}" id="{{ form.prazo_entrega.id_for_label|default:'id_prazo_entrega' }}">
+                                <button class="btn btn-outline-primary increment-prazo-entrega" type="button"><i class="ti ti-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-header"><h5 class="card-title">Financeiro</h5></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Valor Frete (R$)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">R$</span>
+                                {{ form.valor_proposta }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="cubagemModal" tabindex="-1" aria-labelledby="cubagemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cubagemModalLabel">Calculadora de Cubagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label class="form-label">Unidade de Medida:</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="unidadeMedida" id="unidadeCm" value="cm" checked>
+                            <label class="form-check-label" for="unidadeCm">Centímetros (cm)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="unidadeMedida" id="unidadeM" value="m">
+                            <label class="form-check-label" for="unidadeM">Metros (m)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="medidasInput" class="form-label">Insira as medidas (Qtd-CxLxA):</label>
+                    <textarea id="medidasInput" class="form-control" rows="8" placeholder="Exemplos:&#10;1-100x50x30&#10;2x0.8x0.6x0.4&#10;(3) 1200*800*1000"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Resultado:</label>
+                    <pre id="resultadoCubagem" class="form-control" style="min-height: 150px;"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="btnCalcularCubagem">Calcular</button>
+                <button type="button" class="btn btn-success" id="btnTransferirCubagem" disabled>Transferir para Cotação</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block page_scripts %}
+    <script src="{% static 'assets/custom/js/prazo.js' %}?v=999"></script>
+    <script src="{% static 'assets/custom/js/calculadora.js' %}"></script>
+    <script src="{% static 'assets/custom/js/formatar_moeda.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ - Perguntas Frequentes{% endblock %}
+{% block page_title %}FAQ - Perguntas Frequentes{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 offset-lg-1">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0"><i class="ti ti-question-circle me-2"></i>Tire suas dúvidas sobre o PreciFlow</h5>
+                {% if perms.quoteflow.add_faq %}
+                <a href="{% url 'quoteflow:faq_create' %}" class="btn btn-primary btn-sm">
+                    <i class="ti ti-plus me-1"></i> Adicionar Pergunta
+                </a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="accordion app-accordion accordion-primary" id="accordionFaq">
+
+                    {% for categoria, faqs in faqs_por_categoria.items %}
+                        <h4 class="my-4 pt-3">{{ categoria }}</h4>
+                        
+                        {% for faq in faqs %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header d-flex align-items-center">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{{ faq.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+                                    {{ faq.pergunta }}
+                                </button>
+                                {% if perms.quoteflow.change_faq or perms.quoteflow.delete_faq %}
+                                <div class="ms-auto pe-3">
+                                    {% if perms.quoteflow.change_faq %}
+                                    <a href="{% url 'quoteflow:faq_update' faq.id %}" class="btn btn-sm btn-icon btn-outline-secondary" title="Editar">
+                                        <i class="ti ti-pencil"></i>
+                                    </a>
+                                    {% endif %}
+                                    {% if perms.quoteflow.delete_faq %}
+                                    <a href="{% url 'quoteflow:faq_delete' faq.id %}" class="btn btn-sm btn-icon btn-outline-danger" title="Excluir">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </h2>
+                            <div id="faq-{{ faq.id }}" class="accordion-collapse collapse {% if forloop.first and forloop.parentloop.first %}show{% endif %}" data-bs-parent="#accordionFaq">
+                                <div class="accordion-body">
+                                    {{ faq.resposta|safe }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% empty %}
+                        <div class="text-center py-5">
+                            <p>Nenhuma pergunta frequente encontrada.</p>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

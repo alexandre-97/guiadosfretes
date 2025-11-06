@@ -1,0 +1,40 @@
+{% load static %}
+
+<footer class="container-fluid bg-primary">
+    <div class="container text-light">
+        <div class="row">
+            <div class="col">
+                <div class="p-1">
+                    <span class="align-middle p-1">Fluxo de Cotações</span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="p-1 text-right">
+                    <span class="align-middle p-1">Developed by Alexandre</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery primeiro
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Depois Popper.js (necessário para dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Seus scripts -->
+<script defer src="{% static 'assets/font-awesome/js/all.js'%}"></script>
+<script src="{% static 'assets/custom/js/scripts.js'%}"></script>
+<script src="{% static 'assets/custom/js/prazo.js'%}"></script>
+<script src="{% static 'assets/custom/js/set_status.js' %}"></script>
+<script src="{% static 'assets/custom/js/envio_em_massa.js' %}"></script>
+<script src="{% static 'assets/custom/js/filtro_status.js'%}"></script>
+<script src="{% static 'assets/custom/js/spinner.js'%}"></script>
+<script src="{% static 'assets/custom/js/calculadora.js'%}"></script>
+<script src="{% static 'assets/custom/js/formatar_moeda.js'%}"></script>
+<script src="{% static 'assets/custom/js/designar.js' %}"></script>
+<!-- <script src="{% static 'assets/custom/js/formatar_campo.js'%}"></script> -->
+{% if request.path|slice:":15" == "/quoteflow/cotaco" %}
+<script src="{% static 'assets/custom/js/cotacao_edit.js' %}"></script>  
+{% endif %} -->

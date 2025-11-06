@@ -1,0 +1,55 @@
+{% comment %} Arquivo: parciais/_base_header.html (VERSÃO FINAL GARANTIDA) {% endcomment %}
+{% load static %}
+<header class="header-main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8 col-sm-6 d-flex align-items-center header-left p-0">
+                <span class="header-toggle"><i class="ti ti-menu-2"></i></span>
+                <div class="header-searchbar w-100">
+                    <form method="GET" action="{% url 'quoteflow:busca' %}" class="mx-sm-3 app-form" id="searchForm">
+                        <div class="input-group">
+                            <input class="form-control" type="search" name="termo" id="searchInput" placeholder="Buscar cotação..." aria-label="Search" value="{{ request.GET.termo }}">
+                            <button class="btn btn-outline-secondary" type="submit" id="searchButton" title="Buscar">
+                                <i class="ti ti-search text-dark"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4 col-sm-6 d-flex align-items-center justify-content-end header-right p-0">
+                <ul class="d-flex align-items-center">
+                    <li class="dropdown head-icon me-2" id="notificationBellContainer">
+                        <a href="#" class="head-icon bg-light-dark rounded-circle f-s-22 p-2 position-relative" data-bs-toggle="dropdown" aria-expanded="false" id="notificationBellTrigger">
+                            <i class="ti ti-bell"></i>
+                            {% if unread_updates_count > 0 %}
+                                <span id="notificationBadge" style="position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; background-color: #e43a45; color: white; font-size: 0.7rem; font-weight: 700; border: 2px solid white; display: flex; align-items: center; justify-content: center; line-height: 1; z-index: 10;">{{ unread_updates_count }}</span>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" id="notificationDropdown" style="width: 450px; padding: 0;">
+                            <div class="notification-dropdown-header" style="padding: 12px 15px; font-weight: 600; border-bottom: 1px solid #eee;">
+                                Atualizações Recentes
+                            </div>
+                            <div id="notificationList">
+                                {% for status in unread_updates_list %}
+                                    <div class="notification-dropdown-item" data-post-id="{{ status.post.id }}">
+                                        <div class="notification-title">{{ status.post.title }}</div>
+                                        <div class="notification-date">{{ status.post.publication_date|date:"d/m/y" }}</div>
+                                    </div>
+                                {% empty %}
+                                    <div class="notification-dropdown-item-empty" style="padding: 12px 15px;">Nenhuma nova atualização.</div>
+                                {% endfor %}
+                            </div>
+                            <div class="notification-dropdown-footer" style="padding: 10px; text-align: center; border-top: 1px solid #eee; font-size: 0.85rem;">
+                                <a href="{% url 'quoteflow:updates_list' %}">Ver todas as atualizações</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="header-dark">
+                        <div class="sun-logo head-icon bg-light-dark rounded-circle f-s-22 p-2"><i class="ti ti-moon"></i></div>
+                        <div class="moon-logo head-icon bg-light-dark rounded-circle f-s-22 p-2"><i class="ti ti-sun"></i></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

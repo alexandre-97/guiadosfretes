@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta {{ empresa.nome_full }} - #{{ numero_proposta }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset e Estilos Globais */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+        body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #f4f4f4; font-family: 'Roboto', Arial, sans-serif; }
+
+        /* Cor primária - Altere aqui para a cor da sua marca */
+        :root {
+            --primary-color: #007bff;
+        }
+
+        /* Estilos do Template */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            padding: 20px;
+            text-align: center;
+        }
+        .logo {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 0 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .greeting {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333333;
+        }
+        .main-text {
+            font-size: 16px;
+            color: #555555;
+            line-height: 1.6;
+        }
+        .summary-box {
+            background-color: #f9f9f9;
+            border: 1px solid #eeeeee;
+            border-radius: 8px;
+            margin: 25px 0;
+            padding: 20px;
+        }
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        .summary-item {
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .summary-item strong {
+            color: #333333;
+            width: 140px;
+            flex-shrink: 0;
+        }
+        .summary-item span {
+            color: #666666;
+        }
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+        }
+        a.cta-button {
+            color: #ffffff !important; /* Força a cor do texto no link */
+        }
+        .footer {
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #888888;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+
+        /* Media Query para Responsividade */
+        @media screen and (max-width: 600px) {
+            .card, .container {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            .card-inner {
+                padding: 20px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4;">
+        <tr>
+            <td align="center">
+                <div class="container">
+                    <div class="header">
+                        {% if empresa.logo %}
+                            <img src="{{ empresa.logo.url }}" alt="Logo {{ empresa.nome_full }}" class="logo">
+                        {% else %}
+                            <h1 style="color: #444;">{{ empresa.nome_full }}</h1>
+                        {% endif %}
+                    </div>
+
+                    <div class="card">
+                        <div class="card-inner">
+                            <p class="greeting">Prezado(a) {{ cotacao.contato }},</p>
+                            
+                            <p class="main-text">Agradecemos pela sua confiança. Conforme solicitado, segue em anexo a proposta comercial detalhada. Abaixo, um resumo para sua conveniência:</p>
+                            
+                            <div class="summary-box">
+                                <h3 class="summary-title">Resumo da Proposta #{{ numero_proposta }}</h3>
+                                <div class="summary-item"><strong>Origem:</strong> <span>📍 {{ cotacao.origem }}</span></div>
+                                <div class="summary-item"><strong>Destino:</strong> <span>🏁 {{ cotacao.destino }}</span></div>
+                                <div class="summary-item"><strong>Valor da Proposta:</strong> <span>💰 R$ {{ cotacao.valor_proposta|floatformat:2 }}</span></div>
+                                <div class="summary-item"><strong>Prazo de Coleta:</strong> <span>🗓️ {{ cotacao.prazo_coleta }}</span></div>
+                                <div class="summary-item"><strong>Prazo de Entrega:</strong> <span>⏱️ {{ cotacao.prazo_entrega }}</span></div>
+                                <div class="summary-item"><strong>Seguro:</strong> <span>🔒 Acidente, Avaria e Roubo</span> </div>
+                                
+                                <div class="summary-item">
+                                    <strong>Formas de Pagamento: </strong>
+                                    {% if empresa.id == 19 %}
+                                        <span>💵 PIX, Transferencia Bancária e Boleto Mediante Análise</span>
+                                    {% elif empresa.id == 8 %}
+                                        <span>💵 PIX e Cartão de Crédito</span>
+                                    {% elif empresa.id == 5 or empresa.id == 9 or empresa.id == 10 or empresa.id == 11 or empresa.id == 12 or empresa.id == 13 or empresa.id == 15 or empresa.id == 16 or empresa.id == 17 or empresa.id == 18 %}
+                                        <span>💵 PIX e Boleto</span>
+                                    {% else %}
+                                        <span>💵 PIX, Boleto e Cartão de Crédito</span>
+                                    {% endif %}
+                                </div>
+                                {% if empresa.id == 16 or empresa.id == 17 or empresa.id == 2 or empresa.id == 4 %}
+                                <div class="summary-item">
+                                    <strong>Observação:</strong>
+                                    <span style="font-style: italic;">👷‍♂️ Proposta livre de carga e descarga.</span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <p class="main-text">Para acessar a versão completa em PDF, utilize o botão abaixo ou verifique o anexo deste e-mail.</p>
+
+                            {% if proposta_url %}
+                            <a href="{{ proposta_url }}" class="cta-button" style="color: #ffffff;">Baixar Proposta em PDF</a>
+                            {% endif %}
+
+                            <p class="main-text">Estamos à sua inteira disposição para quaisquer esclarecimentos ou para discutir os termos da proposta. Será um prazer atendê-lo(a).</p>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <p><strong>{{ assinatura_digital|linebreaksbr }}</strong></p>
+                        <p>{{ empresa.nome_full }}</p>
+                        <p>{{ empresa.endereco_completo }}</p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
