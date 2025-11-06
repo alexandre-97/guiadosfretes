@@ -1,0 +1,21 @@
+# Arquivo: /web/mudancasja/docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    restart: always
+    container_name: mudancasja_web_homolog
+    
+    # GARANTA QUE ESTA LINHA ESTÁ CORRETA
+    command: gunicorn loja.wsgi:application --workers 5 --bind 127.0.0.1:8006 --timeout 90
+    
+    network_mode: "host"
+    volumes:
+      - /web/mudancasja/media:/app/media
+      - /web/mudancasja/static_root:/app/static_root
+    env_file:
+      - .env
+
+volumes:
+  {}

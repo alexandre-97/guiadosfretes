@@ -1,0 +1,49 @@
+# Arquivo: /web/mudancasja/.dockerignore (VERSÃO FINAL)
+
+# Ambiente Virtual
+venv/
+
+# Arquivos de Upload
+media/
+
+# Arquivos Estáticos (do Gunicorn antigo)
+static/
+static_root/
+
+# Assets do Admin (NÃO FAZEM PARTE DO CÓDIGO)
+ki-admin/
+documentation/
+themeforest-pjrU1w5g-kiadmin-bootstrap-5-admin-dashboard-template.zip
+
+# Banco de Dados
+db.sqlite3
+db.sqlite3_old
+*.sqlite3
+
+# Arquivos de Log e Cache
+__pycache__/
+*.pyc
+*.log
+
+# Arquivos do Git
+.git/
+.gitignore
+
+# Modelos de Machine Learning, Dumps, Backups, etc.
+*.pkl
+*.json
+*.csv
+*.sql
+*.zip
+*.tgz
+*.gz
+*.fig
+*.jar
+
+# Pasta run (contém o socket)
+run/
+
+# Arquivos do Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

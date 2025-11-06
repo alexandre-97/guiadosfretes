@@ -104,16 +104,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'loja.wsgi.application'
 
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'staging_db',
+#        'USER': 'staging_user',
+#        'PASSWORD': 'Alejr3657###',
+#        'HOST': 'localhost',  # ou o IP do seu servidor de banco de dados
+#        'PORT': '5432',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'staging_db',
-        'USER': 'staging_user',
-        'PASSWORD': 'Alejr3657###',
-        'HOST': 'localhost',  # ou o IP do seu servidor de banco de dados
-        'PORT': '5432',
+        'NAME': os.environ.get('POSTGRES_DB', 'staging_db'),
+        'USER': os.environ.get('POSTGRES_USER', 'staging_user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
