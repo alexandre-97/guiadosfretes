@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import Cotacao, EmailEnviado, UpdatePost
+# Adicionei MensagemPersonalizada, FAQ e TemplateProposta na importação
+from .models import Cotacao, EmailEnviado, UpdatePost, MensagemPersonalizada, FAQ, TemplateProposta
 from .forms import CotacaoForm
 
 @admin.register(Cotacao)
 class CotacaoAdmin(admin.ModelAdmin):
     form = CotacaoForm
     
-    # --- Colunas na lista principal (Layout da versão antiga) ---
+    # --- Colunas na lista principal ---
     list_display = (
         'proposta_id_url', 
         'empresa', 
@@ -19,7 +20,7 @@ class CotacaoAdmin(admin.ModelAdmin):
         'data_finalizacao',
     )
     
-    # --- Filtros na barra lateral (Layout da versão antiga) ---
+    # --- Filtros na barra lateral ---
     list_filter = (
         'status_cotacao',
         'status_envio',
@@ -29,7 +30,7 @@ class CotacaoAdmin(admin.ModelAdmin):
         'data_finalizacao',
     )
     
-    # --- Campos de busca (Layout da versão antiga) ---
+    # --- Campos de busca ---
     search_fields = (
         'proposta_id_url', 
         'origem', 
@@ -38,7 +39,7 @@ class CotacaoAdmin(admin.ModelAdmin):
         'responsavel__username'
     )
 
-    # --- Campos somente leitura (Layout da versão antiga) ---
+    # --- Campos somente leitura ---
     readonly_fields = (
         'proposta_id_url',
         'data_recebimento',
@@ -46,7 +47,7 @@ class CotacaoAdmin(admin.ModelAdmin):
         'data_ultima_modificacao',
     )
 
-    # --- Organização da página de edição (O PONTO PRINCIPAL!) ---
+    # --- Organização da página de edição ---
     fieldsets = (
         ('Informações da Cotação (Preciflow 2.0)', {
             'description': 'Gerenciamento de cotações da nova versão do sistema.',
@@ -78,7 +79,7 @@ class CotacaoAdmin(admin.ModelAdmin):
             )
         }),
         ('Datas de Rastreamento', {
-            'classes': ('collapse',), # Seção que começa recolhida
+            'classes': ('collapse',), 
             'fields': (
                 'data_recebimento', 
                 'data_ultima_modificacao',
@@ -87,7 +88,6 @@ class CotacaoAdmin(admin.ModelAdmin):
         }),
     )
 
-    # --- LÓGICA INTERNA (PRESERVADA DA VERSÃO NOVA) ---
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.user = request.user
@@ -104,12 +104,10 @@ class CotacaoAdmin(admin.ModelAdmin):
 class EmailEnviadoAdmin(admin.ModelAdmin):
     list_display = ('cotacao', 'destinatario', 'assunto', 'enviado_por', 'enviado_com_sucesso', 'data_envio')
     list_filter = ('enviado_com_sucesso', 'data_envio')
-    search_fields = ('destinatario', 'assunto', 'cotacao__id', 'cotacao__origem', 'cotacao__destino') # Adicionei campos de cotacao aqui
+    search_fields = ('destinatario', 'assunto', 'cotacao__id', 'cotacao__origem', 'cotacao__destino')
     readonly_fields = ('data_envio',)
     list_select_related = ('cotacao', 'cotacao__empresa', 'enviado_por')
-
     autocomplete_fields = ['cotacao', 'enviado_por']
-
 
 @admin.register(UpdatePost)
 class UpdatePostAdmin(admin.ModelAdmin):
@@ -117,3 +115,23 @@ class UpdatePostAdmin(admin.ModelAdmin):
     list_filter = ('is_published', 'publication_date')
     search_fields = ('title', 'content')
     list_per_page = 20
+
+# --- NOVOS MODELOS ADICIONADOS ---
+
+@admin.register(MensagemPersonalizada)
+class MensagemPersonalizadaAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'empresa', 'ativo')
+    list_filter = ('empresa', 'ativo')
+    search_fields = ('titulo', 'conteudo')
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('pergunta', 'categoria', 'ordem', 'ativo')
+    list_filter = ('categoria', 'ativo')
+    search_fields = ('pergunta', 'resposta')
+    ordering = ('categoria', 'ordem')
+
+@admin.register(TemplateProposta)
+class TemplatePropostaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'ativo')
+    search_fields = ('nome',)
