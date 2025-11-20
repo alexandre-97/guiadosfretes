@@ -1,5 +1,24 @@
-{% comment %} Arquivo: templates/parciais/_base_sidebar.html (CORRIGIDO) {% endcomment %}
+{% comment %} Arquivo: templates/parciais/_base_sidebar.html (FINAL V3) {% endcomment %}
 {% load static %}
+
+{% block page_css %}
+<style>
+    /* CORREÇÃO VISUAL: Remove o quadrado/seta (::after) que aparece ao lado dos links */
+    .app-nav .main-nav > li > a::after {
+        display: none !important;
+        content: none !important;
+    }
+    
+    /* Ajuste fino para alinhar os ícones Tabler com o texto */
+    .nav-icon-fix {
+        font-size: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+</style>
+{% endblock %}
+
 <nav>
     <div class="app-logo">
         <a class="logo d-inline-block" href="{% url 'quoteflow:cotacao_list' %}">
@@ -39,39 +58,43 @@
 
     <div class="app-nav" id="app-simple-bar">
         <ul class="main-nav p-0 mt-2">
+            
             <li class="menu-title"><span>OPERAÇÃO</span></li>
             <li>
                 <a href="{% url 'quoteflow:cotacao_list' %}">
-                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#home"></use></svg>
+                    <svg stroke="currentColor" stroke-width="1.5" class="nav-icon"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#home"></use></svg>
                     Cotações
                 </a>
             </li>
             
-            {% comment %} {% endcomment %}
-            
             <li class="menu-title"><span>ANÁLISE</span></li>
-            <li>{% if perms.perfil.pode_ver_dashboard %}
+            {% if perms.perfil.pode_ver_dashboard %}
+            <li>
                 <a href="{% url 'quoteflow:dashboard' %}">
-                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#chart"></use></svg>
+                    <svg stroke="currentColor" stroke-width="1.5" class="nav-icon"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#chart"></use></svg>
                     Dashboard
                 </a>
-                {% endif %}
-            <li class="menu-title"><span>CONFIGURAÇÕES</span></li> <li>
+            </li>
+            {% endif %}
+
+            <li class="menu-title"><span>CONFIGURAÇÕES</span></li> 
+            <li>
                 <a href="{% url 'quoteflow:template_msg_list' %}">
-                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#message-square"></use></svg>
+                    <i class="ti ti-message-dots nav-icon-fix"></i>
                     Modelos de Mensagem
                 </a>
             </li>                            
+            
             <li class="menu-title"><span>RECURSOS</span></li>
             <li>
                 <a href="{% url 'quoteflow:updates_list' %}">
-                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#bell"></use></svg>
+                    <i class="ti ti-bell nav-icon-fix"></i>
                     Atualizações Recentes
                 </a>
             </li>
             <li>
                 <a href="{% url 'quoteflow:faq_list' %}">
-                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#help-circle"></use></svg>
+                    <i class="ti ti-help nav-icon-fix"></i>
                     FAQ - Dúvidas
                 </a>
             </li>
