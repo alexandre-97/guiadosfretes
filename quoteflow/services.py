@@ -123,11 +123,12 @@ def parse_guia(texto, msg_headers=None):
         'telefone': '', 'email': ''
     }
     
-    # Versão atualizada para v4.6
-    logger.info(f"Executando parse_guia v4.6 para email com assunto: {msg_headers.get('Subject', 'N/A')}")
+    # Versão atualizada para v4.7 (Correção Cubagem + Normalização Tel)
+    logger.info(f"Executando parse_guia v4.7 para email com assunto: {msg_headers.get('Subject', 'N/A')}")
 
     try:
-        # 1. Obter o texto limpo para usar RegEx
+        # 1. Obter o texto limpo (CORREÇÃO ESSENCIAL: preservar quebras de linha)
+        # Substituído soup.get_text por limpar_html_e_normalizar
         texto_limpo = limpar_html_e_normalizar(texto)
 
         # 2. Extrair dados da cotação do texto limpo
@@ -150,8 +151,17 @@ def parse_guia(texto, msg_headers=None):
             if peso_num_match:
                 dados['peso'] = normaliza_numero(peso_num_match.group(1))
 
+        # --- EXTRAÇÃO DA CUBAGEM (v4 - Robusta) ---
+        # Procura "Cubagem" em qualquer lugar do texto, sem depender de início de linha
+        m_cubagem = re.search(r"Cubagem[:\s]+([\d.,]+)", texto_limpo, re.IGNORECASE)
+        if m_cubagem:
+            try:
+                dados['cubagem'] = normaliza_numero(m_cubagem.group(1))
+                logger.info(f"GUIA: Cubagem extraída com sucesso: {dados['cubagem']}")
+            except Exception as e:
+                logger.warning(f"GUIA: Falha ao converter cubagem: {e}")
 
-        # 3. Lógica da Observação (v4.5)
+        # 3. Lógica da Observação (Seu código original mantido)
         field_patterns = [
             r'^Origem:?.*',
             r'^Destino:?.*',
@@ -207,7 +217,6 @@ def parse_guia(texto, msg_headers=None):
             
         
         # 4. Lógica de extração de Contato, Email e Telefone
-        
         if msg_headers:
             reply_to_header = msg_headers.get('Reply-To')
             if reply_to_header:
@@ -228,6 +237,7 @@ def parse_guia(texto, msg_headers=None):
             if contato_match:
                 dados['contato'] = contato_match.group(1).strip()
 
+        # --- Lógica do WhatsApp Integrada com a Função de Normalização ---
         whatsapp_button_text = re.compile(r'Abrir esta cotação no WhatsApp', re.IGNORECASE)
         whatsapp_link_tag = soup.find('a', string=whatsapp_button_text)
 
@@ -235,7 +245,7 @@ def parse_guia(texto, msg_headers=None):
             redirect_url = whatsapp_link_tag.get('href')
             logger.info(f"Encontrado link de redirecionamento do WhatsApp: {redirect_url}")
             try:
-                headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+                headers = {'User-Agent': 'Mozilla/5.0'}
                 response = requests.get(redirect_url, allow_redirects=True, timeout=15, headers=headers) 
                 final_url = response.url
                 logger.info(f"URL final do WhatsApp após redirecionamento: {final_url}")
@@ -243,55 +253,31 @@ def parse_guia(texto, msg_headers=None):
                 if 'wa.me' in final_url or 'api.whatsapp.com' in final_url:
                     phone_match = re.search(r'(\d{10,})', final_url)
                     if phone_match:
-                        
-                        # --- INÍCIO DA CORREÇÃO v4.6 (Tratamento do 9º dígito) ---
                         numero_bruto = phone_match.group(1)
-                        numero_final = numero_bruto # Default
-                        
+                        # USANDO A SUA FUNÇÃO DE NORMALIZAÇÃO AQUI:
                         try:
-                            # Regra para números brasileiros (55) com 11 dígitos locais (DDD + 9 + Número)
-                            if len(numero_bruto) == 13 and numero_bruto.startswith('55'):
-                                ddd = numero_bruto[2:4]
-                                numero_local_11_digitos = numero_bruto[4:] # Ex: 995058673
-                                
-                                if numero_local_11_digitos.startswith('9'):
-                                    primeiro_digito_do_numero = numero_local_11_digitos[1]
-                                    
-                                    # Regra 1: Se o número (sem o 9) começa com 2, 3, 4, ou 5,
-                                    # é um fixo que teve o 9 adicionado indevidamente.
-                                    if primeiro_digito_do_numero in ('2', '3', '4', '5'):
-                                        numero_final = "55" + ddd + numero_local_11_digitos[1:]
-                                        logger.warning(f"Número {numero_bruto} corrigido (Regra Fixo 2-5). Removido 9º dígito. Novo número: {numero_final}")
-                                    
-                                    # Regra 2: Exceção para DDDs do Sul (41-49) onde o fixo *também* pode começar com 9.
-                                    # Ex: 554199... (Fixo) -> 55419...
-                                    elif ddd.startswith('4') and primeiro_digito_do_numero == '9':
-                                        numero_final = "55" + ddd + numero_local_11_digitos[1:]
-                                        logger.warning(f"Número {numero_bruto} corrigido (Regra Exceção DDD {ddd}). Removido 9º dígito. Novo número: {numero_final}")
-                                    
-                                    # Se não caiu nas regras (ex: 98..., 97...), é um celular válido e 'numero_final' permanece 'numero_bruto'.
-                                    
+                            numero_corrigido = normalizar_telefone_brasil(numero_bruto)
+                            dados['telefone'] = numero_corrigido
+                            logger.info(f"✅ Telefone extraído e normalizado: {numero_bruto} -> {dados['telefone']}")
                         except Exception as e:
-                            logger.error(f"Erro ao aplicar regra do 9º dígito: {e}. Usando número bruto {numero_bruto}")
-                            numero_final = numero_bruto # Em caso de erro, usa o original
-                            
-                        dados['telefone'] = numero_final
-                        logger.info(f"✅ Telefone extraído com sucesso: {dados['telefone']}")
-                        # --- FIM DA CORREÇÃO v4.6 ---
-                        
+                             logger.error(f"Erro ao normalizar telefone: {e}")
+                             dados['telefone'] = numero_bruto
+                    else:
+                        logger.warning(f"Número não encontrado na URL final: {final_url}")
                 else:
-                    logger.warning(f"O link de redirecionamento não levou a um URL do WhatsApp: {final_url}")
+                    logger.warning(f"O link não é de WhatsApp: {final_url}")
+
             except requests.exceptions.Timeout:
-                logger.error(f"TIMEOUT ao tentar acessar o link de redirecionamento do WhatsApp: {redirect_url}. O e-mail será processado sem o telefone.")
+                logger.error(f"TIMEOUT ao acessar WhatsApp URL: {redirect_url}")
             except requests.exceptions.RequestException as e:
-                logger.error(f"Falha de rede ao tentar acessar o link de redirecionamento do WhatsApp: {e}")
+                logger.error(f"Erro de rede ao acessar WhatsApp URL: {e}")
         else:
-             logger.warning("Não foi encontrado o botão/link 'Abrir esta cotação no WhatsApp'.")
+             logger.warning("Botão 'Abrir esta cotação no WhatsApp' não encontrado.")
 
     except Exception as e:
-        logger.error(f"ERRO CRÍTICO dentro do parse_guia v4.6: {e}\n{traceback.format_exc()}")
+        logger.error(f"ERRO CRÍTICO dentro do parse_guia v4.7: {e}\n{traceback.format_exc()}")
         
-    logger.info(f"[Email ID {msg_headers.get('Message-ID', 'N/A')}] Dados extraídos via parse_guia v4.6: {dados}")
+    logger.info(f"[Email ID {msg_headers.get('Message-ID', 'N/A')}] Dados extraídos via parse_guia v4.7: {dados}")
     return dados
 
 def _extract_data(text, pattern):
@@ -601,3 +587,53 @@ def carregar_cotacoes_email(empresa):
     except Exception as e:
         logger.error(f"❌ Erro ao carregar cotações:\n{traceback.format_exc()}")
         raise Exception(f'Erro ao carregar cotações: {str(e)}')
+
+def normalizar_telefone_brasil(numero):
+    """
+    Normaliza números brasileiros e corrige o '9 fantasma' quando for telefone fixo.
+    Regras:
+    - Mantém celulares (9 + 8 dígitos).
+    - Se vier 9 + número fixo (2,3,4,5), remove o primeiro 9.
+    - Trabalha com números contendo ou não +55.
+    """
+    if not numero:
+        return ""
+
+    # Remove tudo que não é número
+    num = re.sub(r'\D+', '', str(numero))
+
+    # Detecta se já vem com código do país
+    tem_55 = num.startswith("55")
+    resto = num[2:] if tem_55 else num
+
+    # Se o resto é muito curto, não há o que normalizar
+    if len(resto) < 8:
+        return num
+
+    # Se resto >= 10, consideramos que tem DDD
+    if len(resto) >= 10:
+        ddd = resto[:2]
+        local = resto[2:]
+
+        # Caso comum: 9 fantasma (9 + número fixo)
+        if len(local) == 9 and local[0] == "9":
+            segundo = local[1]
+
+            # Se segundo dígito indica FIXO (2–5)
+            if segundo in "2345":
+                local = local[1:]  # remove o 9 fantasma
+                final = ddd + local
+                return "55" + final if not tem_55 else "55" + final
+
+            # Região Sul histórica (DDD 4x) também tem casos excepcionais
+            if ddd.startswith("4") and segundo == "9":
+                local = local[1:]
+                final = ddd + local
+                return "55" + final if not tem_55 else "55" + final
+
+        # Celular válido ou fixo normal → mantém e garante o 55
+        final = ddd + local
+        return "55" + final
+
+    # Se o número não tinha DDD, retorna com 55 por padrão
+    return "55" + resto

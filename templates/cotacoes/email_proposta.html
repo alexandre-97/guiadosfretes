@@ -144,8 +144,9 @@
                                 <div class="summary-item"><strong>Valor da Proposta:</strong> <span>💰 R$ {{ cotacao.valor_proposta|floatformat:2 }}</span></div>
                                 <div class="summary-item"><strong>Prazo de Coleta:</strong> <span>🗓️ {{ cotacao.prazo_coleta }}</span></div>
                                 <div class="summary-item"><strong>Prazo de Entrega:</strong> <span>⏱️ {{ cotacao.prazo_entrega }}</span></div>
+                                {% if cotacao.tipo_frete != 'Mudanças' %}
                                 <div class="summary-item"><strong>Seguro:</strong> <span>🔒 Acidente, Avaria e Roubo</span> </div>
-                                
+                                {% endif %}                                
                                 <div class="summary-item">
                                     <strong>Formas de Pagamento: </strong>
                                     {% if empresa.id == 19 %}

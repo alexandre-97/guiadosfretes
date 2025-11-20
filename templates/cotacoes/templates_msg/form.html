@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+{% block page_title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Título do Modelo</label>
+                        {{ form.titulo|add_class:"form-control" }}
+                        <small class="text-muted">Ex: Cobrança Amigável, Agradecimento, etc.</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Conteúdo da Mensagem</label>
+                        <div class="d-flex gap-2 mb-2 flex-wrap">
+                            <small class="text-muted w-100">Clique para inserir uma variável:</small>
+                            {% for chave, descricao in variaveis.items %}
+                                <button type="button" class="btn btn-xs btn-outline-info btn-variavel" data-var="{{ chave }}" title="{{ descricao }}">
+                                    {{ chave }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                        {{ form.conteudo|add_class:"form-control"|attr:"rows:8"|attr:"id:id_conteudo" }}
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form.ativo|add_class:"form-check-input" }}
+                        <label class="form-check-label" for="id_ativo">Modelo Ativo?</label>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'quoteflow:template_msg_list' %}" class="btn btn-light">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Salvar Modelo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card bg-light-primary">
+            <div class="card-body">
+                <h5 class="text-primary"><i class="ti ti-info-circle"></i> Como funciona?</h5>
+                <p class="f-s-13">Use as variáveis para personalizar a mensagem automaticamente para cada cliente.</p>
+                <ul class="list-group list-group-flush f-s-12">
+                    {% for chave, descricao in variaveis.items %}
+                    <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0">
+                        <code class="text-primary fw-bold">{{ chave }}</code>
+                        <span>{{ descricao }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<script>
+    // Script simples para inserir a variável onde o cursor estiver no textarea
+    document.querySelectorAll('.btn-variavel').forEach(button => {
+        button.addEventListener('click', function() {
+            const textarea = document.getElementById('id_conteudo');
+            const variavel = this.getAttribute('data-var');
+            
+            const startPos = textarea.selectionStart;
+            const endPos = textarea.selectionEnd;
+            
+            textarea.value = textarea.value.substring(0, startPos) 
+                + variavel 
+                + textarea.value.substring(endPos, textarea.value.length);
+            
+            textarea.focus();
+            textarea.selectionStart = startPos + variavel.length;
+            textarea.selectionEnd = startPos + variavel.length;
+        });
+    });
+</script>
+{% endblock %}

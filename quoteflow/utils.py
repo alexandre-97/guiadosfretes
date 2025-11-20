@@ -801,7 +801,7 @@ def gerar_mensagem_whatsapp_v2(cotacao, empresa_usuario, user, numero_proposta):
     prazo_coleta_formatado = prazo_coleta_original[3:] if prazo_coleta_original.upper().startswith('DE ') else prazo_coleta_original
 
     # Lógica de pagamento (mantida da função original)
-    IDS_EMPRESA_SEM_CARTAO = [5, 9, 10, 11, 12, 13, 15, 16, 17, 18]
+    IDS_EMPRESA_SEM_CARTAO = [5, 9, 10, 11, 12, 13, 15, 16, 17, 18, 20]
     if empresa_usuario.id == 19:
         texto_pagamento = "PIX, TRANSFERENCIA BANCÁRIA E BOLETO MEDIANTE ANÁLISE"
     elif empresa_usuario.id == 8:
@@ -957,10 +957,10 @@ def _enviar_via_megaapi_com_retry(url, payload, headers, proxies, cotacao_telefo
                 raise
 
 def enviar_whatsapp_megaapi(instance_key, token, phone, message, proxy_url=None, cotacao=None):
-    """Envia MENSAGEM DE TEXTO pela MegaAPI usando a lógica de retry inteligente."""
     _humanizar_envio(instance_key, token, phone, proxy_url)
     
     url = f"https://apistart03.megaapi.com.br/rest/sendMessage/{instance_key}/text"
+    # O valor de 'message' JÁ está codificado com %0A
     payload = {"messageData": {"to": phone, "text": message, "linkPreview": False}}
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
     proxies = {"http": proxy_url, "https": proxy_url} if proxy_url else None
@@ -983,29 +983,47 @@ def enviar_whatsapp(request, cotacao, mensagem=None, **kwargs):
     if not mensagem:
         mensagem = gerar_mensagem_whatsapp(cotacao, perfil.empresa, user, gerar_numero_proposta(cotacao))
 
+    # --- NOVO FLUXO DE CODIFICAÇÃO (CRÍTICO) ---
+    
+    # 1. Mensagem LIMPA (com '\n' real) para APIs que esperam JSON (Self-Hosted/MegaAPI)
+    mensagem_api_limpa = mensagem 
+
+    # 2. Mensagem CODIFICADA (com '%0A') para Fallback de URL (WhatsApp Web)
+    mensagem_web_encoded = quote(mensagem)
+    
+    # ---------------------------------------------
+
     if perfil.tem_api_whatsapp():
+        # APIs geralmente esperam a string de texto no formato JSON com \n, 
+        # e a própria API faz a codificação/substituição para a camada do WhatsApp.
+        
+        # O self-hosted e o megaapi esperam o message no payload
+        # e o 'message' deve ser a string limpa, pois é enviada via JSON.
+        
         if perfil.api_provider == 'MEGAAPI':
             # === DESPACHANTE MEGAAPI ===
             return enviar_whatsapp_megaapi(
                 instance_key=perfil.api_credentials.get('instance_key'),
                 token=perfil.api_credentials.get('token'),
-                phone=telefone_formatado, message=mensagem,
-                proxy_url=perfil.proxy_url, cotacao=cotacao
+                phone=telefone_formatado, 
+                message=mensagem_api_limpa, # AGORA USAMOS A MENSAGEM LIMPA/NORMALIZADA
+                proxy_url=perfil.proxy_url, 
+                cotacao=cotacao
             )
         elif perfil.api_provider == 'SELF_HOSTED':
             # === DESPACHANTE API PRÓPRIA (SELF_HOSTED) ===
-            # Passa 'cotacao' e 'user' para a próxima função
             return enviar_texto_self_hosted(
                 credentials=perfil.api_credentials,
                 phone=telefone_formatado,
-                message=mensagem,
+                message=mensagem_api_limpa, # AGORA USAMOS A MENSAGEM LIMPA/NORMALIZADA
                 cotacao=cotacao, 
                 user=user
             )
         else:
             raise Exception(f"Provedor de API '{perfil.api_provider}' não suportado.")
     else:
-        whatsapp_url = f"https://web.whatsapp.com/send?phone={telefone_formatado}&text={quote(mensagem)}"
+        # Fallback para WhatsApp Web: PRECISA DE CODIFICAÇÃO URL
+        whatsapp_url = f"https://web.whatsapp.com/send?phone={telefone_formatado}&text={mensagem_web_encoded}"
         return {'redirect': whatsapp_url}
 def salvar_email_enviado(config_email, msg):
     import imaplib
@@ -1048,7 +1066,7 @@ def converter_docx_para_pdf(input_path, output_dir=None):
 
     # Define o ambiente para garantir que o LibreOffice encontre seus binários
     env = os.environ.copy()
-    env["HOME"] = os.path.expanduser("~") # Adicionar o diretório home pode resolver problemas de permissão
+    env["HOME"] = "/tmp"# Adicionar o diretório home pode resolver problemas de permissão
     env["PATH"] = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
     result = subprocess.run(command, capture_output=True, text=True, env=env)
@@ -1630,7 +1648,7 @@ def gerar_mensagem_coleta_whatsapp(cotacao, numero_proposta):
     # Mantém a lógica específica por empresa
     if cotacao.empresa and cotacao.empresa.id in [9, 10, 18]:
         formulario = f"""*DADOS DO REMETENTE*\n*Nome/Razão Social:* *CPF/CNPJ:*\n*Endereço completo c/ cep:* *Responsável p/ recebimento:*\n*Telefone celular:* *Horários permitidos:* 00:00 às 00:00\n*Coleta em fds/feriado:* ( ) sim ( ) não\n*Ajudante Carga:* ( ) sim ( ) não, quantos?\n\n📦 *DADOS DO DESTINATÁRIO*\n*Nome/Razão Social:*\n*CPF/CNPJ:*\n*Endereço completo c/ cep:* *Responsável p/ recebimento:*\n*Telefone celular:*\n*Horários permitidos:* 00:00 às 00:00\n*Entrega em fds/feriado:* ( ) sim ( ) não\n*Ajudante Descarga:* ( ) sim ( ) não, quantos?\n\n*Dados pagador do frete:*\n*CNPJ/CPF:*"""
-    elif cotacao.empresa and cotacao.empresa.id == 13:
+    elif cotacao.empresa and cotacao.empresa.id in [13, 20]:
         formulario = f"""Data que o material estará liberado para coletar: \nHorário de funcionamento do local de coleta (informar horário de almoço):\nHorário de funcionamento do local de entrega (informar horário de almoço):\nCPF ou CNPJ do remetente:\nCPF ou CNPJ do destinatario: \nCPF ou CNPJ do pagador do frete: \nEndereço completo de coleta: \nEndereço completo de entrega: \nNome e Telefone para contato do remetente: \nNome e Telefone para contato do destinatário:\nTipo de material: \nPreferência de veículo aberto ou fechado."""
     else: # Formulário Padrão
         formulario = f"""📦 *DADOS DO REMETENTE*\n*Nome/Razão Social:* *CPF/CNPJ:*\n*Endereço completo c/ cep:* *Responsável p/ recebimento:*\n*Telefone celular:* *Horários permitidos:* 00:00 às 00:00\n*Coleta em fds/feriado:* ( ) sim ( ) não\n*Ajudante Carga:* ( ) sim ( ) não, quantos?\n\n📦 *DADOS DO DESTINATÁRIO*\n*Nome/Razão Social:*\n*CPF/CNPJ:*\n*Endereço completo c/ cep:* *Responsável p/ recebimento:*\n*Telefone celular:*\n*Horários permitidos:* 00:00 às 00:00\n*Entrega em fds/feriado:* ( ) sim ( ) não\n*Ajudante Descarga:* ( ) sim ( ) não, quantos?"""
@@ -1652,7 +1670,7 @@ def gerar_html_formulario_coleta(cotacao, numero_proposta, empresa, assinatura_d
 
     # --- INÍCIO DA ALTERAÇÃO ---
     # Define qual template usar com base no ID da empresa
-    if empresa and empresa.id == 13:
+    if empresa and empresa.id in [13, 20]:
         template_name = 'cotacoes/email_solicitacao_coleta_empresa13_fundamental.html'
     else:
         template_name = 'cotacoes/email_solicitacao_coleta.html'

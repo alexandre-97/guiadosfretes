@@ -1,7 +1,7 @@
 # quoteflow/forms.py
 from django import forms
 from perfil.models import Perfil
-from .models import FAQ, Cotacao, UpdatePost
+from .models import FAQ, Cotacao, UpdatePost, MensagemPersonalizada
 
 # Linha corrigida: o "class CotacaoForm" agora está na linha de baixo
 class CotacaoForm(forms.ModelForm):
@@ -104,3 +104,13 @@ class CadastroForm(forms.Form):
         widget=forms.Select(attrs={'class': 'form-select'}),
         label="Plano de Interesse"
     )        
+
+class MensagemPersonalizadaForm(forms.ModelForm):
+    class Meta:
+        model = MensagemPersonalizada
+        fields = ['titulo', 'conteudo', 'ativo']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ex: Cobrança Amigável'}),
+            'conteudo': forms.Textarea(attrs={'class': 'form-control', 'rows': 8, 'id': 'txtConteudoTemplate'}), # ID importante para o JS
+            'ativo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

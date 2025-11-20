@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Excluir Modelo{% endblock %}
+{% block page_title %}Excluir Modelo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0 text-white">Confirmação de Exclusão</h5>
+            </div>
+            <div class="card-body text-center p-5">
+                <i class="ti ti-alert-triangle text-danger f-s-50 mb-3"></i>
+                <h4>Tem certeza?</h4>
+                <p class="mb-4">Você está prestes a excluir o modelo: <strong>"{{ object.titulo }}"</strong>.<br>Esta ação não pode ser desfeita.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'quoteflow:template_msg_list' %}" class="btn btn-light">Cancelar</a>
+                        <button type="submit" class="btn btn-danger">Sim, Excluir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

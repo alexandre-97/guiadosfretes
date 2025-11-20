@@ -302,3 +302,72 @@ class UserUpdateStatus(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.post.title} (Lido: {self.has_read})"
+
+class EmissaoDocumento(models.Model):
+    cotacao = models.OneToOneField(
+        'quoteflow.Cotacao', 
+        on_delete=models.PROTECT, 
+        related_name='documento_fiscal',
+        null=True, blank=True
+    )
+    # Adicionei null=True, blank=True para evitar o erro de "non-nullable"
+    chave_nfe = models.CharField(max_length=44, help_text='Chave de 44 dígitos da NF-e da mercadoria', null=True, blank=True)
+    
+    # Dados do Remetente (Opcionais por enquanto)
+    remetente_cnpj_cpf = models.CharField(max_length=18, null=True, blank=True)
+    remetente_nome = models.CharField(max_length=255, null=True, blank=True)
+    remetente_endereco = models.CharField(max_length=255, null=True, blank=True)
+    
+    # Dados do Destinatário (Opcionais por enquanto)
+    destinatario_cnpj_cpf = models.CharField(max_length=18, null=True, blank=True)
+    destinatario_nome = models.CharField(max_length=255, null=True, blank=True)
+    
+    # O CAMPO QUE DEU ERRO:
+    cfop = models.CharField(max_length=4, null=True, blank=True) 
+    
+    status = models.CharField(max_length=50, default='Pendente')
+    
+    # Integração API
+    id_api = models.CharField(
+        max_length=100, blank=True, null=True, 
+        help_text='ID do documento na API de emissão'
+    )
+    chave_cte = models.CharField(
+        max_length=44, blank=True, null=True, 
+        help_text='Chave do CTe após autorização'
+    )
+    xml_autorizado = models.FileField(upload_to='documentos_fiscais/xml/', blank=True, null=True)
+    pdf_documento = models.FileField(upload_to='documentos_fiscais/pdf/', blank=True, null=True)
+
+    def __str__(self):
+        return f"Doc Fiscal - Cotação {self.cotacao.id}"
+
+
+class EmissaoMDFe(models.Model):
+    empresa = models.ForeignKey('perfil.Empresa', on_delete=models.CASCADE, null=True, blank=True)
+    
+    # AQUI ESTAVA O ERRO: Adicionamos null=True em tudo
+    motorista_nome = models.CharField(max_length=255, null=True, blank=True)
+    motorista_cpf = models.CharField(max_length=14, null=True, blank=True)
+    veiculo_placa = models.CharField(max_length=10, null=True, blank=True)
+    
+    status = models.CharField(max_length=50, default='Pendente', null=True, blank=True)
+    
+    ctes_manifesto = models.ManyToManyField('EmissaoDocumento', related_name='manifestos', blank=True)
+
+    def __str__(self):
+        return f"MDFe {self.id}"
+class MensagemPersonalizada(models.Model):
+    empresa = models.ForeignKey('perfil.Empresa', on_delete=models.CASCADE, related_name='mensagens_personalizadas')
+    titulo = models.CharField(max_length=100, verbose_name="Título do Modelo")
+    conteudo = models.TextField(verbose_name="Conteúdo da Mensagem")
+    ativo = models.BooleanField(default=True, verbose_name="Ativo")
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Modelo de Mensagem"
+        verbose_name_plural = "Modelos de Mensagem"
+        ordering = ['-data_criacao'] # Mostra os mais recentes primeiro
+
+    def __str__(self):
+        return f"{self.titulo} ({self.empresa.nome})"

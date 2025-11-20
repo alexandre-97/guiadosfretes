@@ -7,25 +7,10 @@ FROM python:3.12-slim-bookworm
 ENV PYTHONDONTWRITEBYTECODE 1  # Impede o Python de criar arquivos .pyc
 ENV PYTHONUNBUFFERED 1         # Garante que os logs saiam direto, sem buffer
 
-# 3. Diretório de Trabalho: Crie e defina o diretório de trabalho dentro do container
+# 3. Diretório de Trabalho
 WORKDIR /app
 
-# 4. Instale Dependências do Sistema (se houver, ex: para converter DOCX para PDF)
-# Você pode precisar de 'libreoffice' ou 'unoconv' aqui se fizer conversão de DOCX
-# Por enquanto, vamos manter simples.
-
-# 5. Instale Dependências do Python
-# Copie SÓ o requirements.txt primeiro para aproveitar o cache do Docker
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# 6. Copie o Código do Aplicativo
-# Copia todo o resto do seu projeto para dentro do container
-COPY . .
-
-# 7. Crie o usuário 'appuser'
-# Rodar como 'root' em containers não é seguro.
-# O usuário 'www-data' (ID 33) já é usado pelo Nginx, então vamos usá-lo.
+# 4. Crie o usuário 'www-data' (ID 33) antes de instalar pacotes (melhor prática)
 RUN if ! getent group www-data; then \
         groupadd -g 33 www-data; \
     else \
@@ -36,10 +21,29 @@ RUN if ! getent group www-data; then \
     else \
         usermod -u 33 -g 33 www-data; \
     fi
-# 8. Exponha a Porta
-# Gunicorn rodará na porta 8000 (apenas dentro da rede do Docker)
+
+# 5. Instale Dependências do Sistema (LibreOffice para conversão DOCX para PDF)
+# Usamos pacotes 'core' e 'headless' para reduzir o tamanho e o tempo de build.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libreoffice-writer \
+    libreoffice-core \
+    unoconv \
+    default-jre-headless \
+    && rm -rf /var/lib/apt/lists/*
+
+# 6. Instale Dependências do Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 7. Copie o Código do Aplicativo
+COPY . .
+
+# 8. Defina o usuário de execução para segurança
+USER www-data
+
+# 9. Exponha a Porta
 EXPOSE 8000
 
-# 9. Comando de Execução (baseado no seu .service)
-# O Gunicorn agora se liga a uma porta TCP, não a um socket.
+# 10. Comando de Execução
 CMD ["gunicorn", "loja.wsgi:application", "--workers", "5", "--bind", "0.0.0.0:8000", "--timeout", "90"]

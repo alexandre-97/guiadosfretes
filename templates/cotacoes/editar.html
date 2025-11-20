@@ -38,6 +38,8 @@
                                 <button type="submit" class="btn btn-primary"><i class="ti ti-device-floppy me-1"></i> Salvar Alterações</button>
                                 <a href="{% url 'quoteflow:duplicar_cotacao' cotacao.proposta_id_url %}" class="btn btn-secondary btn-action-spinner"><i class="ti ti-copy me-1"></i> Duplicar Cotação</a>
                                 <a href="{% url 'quoteflow:enviar_cotacao' cotacao.proposta_id_url %}" class="btn btn-success btn-action-spinner"><i class="ti ti-send me-1"></i> Enviar Proposta</a>
+                                <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#modalMsgCustom">
+                                <i class="ti ti-message-dots me-1"></i> Mensagem Personalizada
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 {% if anterior %}
@@ -238,9 +240,58 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalMsgCustom" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enviar Mensagem Personalizada</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Escolha um modelo (opcional):</label>
+                    <select id="selectTemplateMsg" class="form-select">
+                        <option value="">-- Escrever do zero --</option>
+                        {% for msg in request.user.perfil.empresa.mensagens_personalizadas.all %}
+                            {% if msg.ativo %}
+                            <option value="{{ msg.conteudo|escapejs }}">{{ msg.titulo }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <textarea id="txtMsgCustomArea" class="form-control" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnEnviarCustomZap">
+                    <i class="ti ti-brand-whatsapp"></i> Enviar Agora
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modalFeedbackEnvio" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" id="modalFeedbackHeader">
+                <h5 class="modal-title text-white" id="modalFeedbackTitle">Status do Envio</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <div id="modalFeedbackIcon" class="mb-3 f-s-50"></div>
+                <h4 id="modalFeedbackMessage" class="mb-3"></h4>
+                <p id="modalFeedbackDetail" class="text-muted"></p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="location.reload()">OK, Recarregar Página</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
-
 
 {% block page_scripts %}
     {{ block.super }} 
@@ -308,5 +359,122 @@
                 if (!statusEnvioSelect) { console.error("Script de Cores: O campo <select name='status_envio'> não foi encontrado."); }
             }
         });
+        document.addEventListener('DOMContentLoaded', function() {
+        // --- Lógica das Variáveis e Templates (ATUALIZADA) ---
+        const dadosCotacao = {
+            '{cliente}': "{{ cotacao.contato|default:'Cliente'|escapejs }}",
+            '{valor}': "{{ cotacao.valor_proposta_formatado }}",
+            '{origem}': "{{ cotacao.origem|escapejs }}",
+            '{destino}': "{{ cotacao.destino|escapejs }}",
+            '{empresa}': "{{ cotacao.empresa.nome|escapejs }}",
+            '{saudacao}': new Date().getHours() < 12 ? 'Bom dia' : (new Date().getHours() < 18 ? 'Boa tarde' : 'Boa noite'),
+            '{link}': "https://{{ request.get_host }}{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}", // Deixamos por compatibilidade, mas não será usada
+            '{numero}': "{{ cotacao.proposta_id_url|escapejs }}" // NOVO: Variável da proposta (EXI123QF)
+        };
+
+        const select = document.getElementById('selectTemplateMsg');
+        const area = document.getElementById('txtMsgCustomArea');
+
+        if(select) {
+            select.addEventListener('change', function() {
+                let texto = this.value;
+                if(!texto) { area.value = ''; return; }
+                
+                // ⭐️ APLICAÇÃO DA CORREÇÃO: Decodificar o texto ANTES de preencher o textarea
+                texto = decodeNewlines(texto);
+                
+                for (const [key, val] of Object.entries(dadosCotacao)) {
+                    // Substitui todas as variáveis
+                    texto = texto.replaceAll(key, val);
+                }
+                area.value = texto;
+            });
+        }
+
+        // --- Lógica de Envio com Novo Modal (Sem Alterações) ---
+        const btnEnviar = document.getElementById('btnEnviarCustomZap');
+        
+        // Instâncias dos Modais do Bootstrap
+        const modalEnvioEl = document.getElementById('modalMsgCustom');
+        const modalFeedbackEl = document.getElementById('modalFeedbackEnvio');
+        let bsModalEnvio = null; 
+        let bsModalFeedback = null;
+
+        if(btnEnviar) {
+            btnEnviar.addEventListener('click', function() {
+                let msg = area.value;
+                
+                if(!msg.trim()) { alert('Digite uma mensagem!'); return; }
+
+                // Feedback no botão
+                const originalBtn = btnEnviar.innerHTML;
+                btnEnviar.disabled = true;
+                btnEnviar.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+
+                fetch("{% url 'quoteflow:enviar_whatsapp_personalizado_ajax' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        cotacao_id: "{{ cotacao.id }}",
+                        // Passamos a mensagem sem URL encoding. O Python recebe \n reais se o JS usou \n.
+                        mensagem: msg
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    // 1. Fecha o modal de digitação
+                    bsModalEnvio = bootstrap.Modal.getInstance(modalEnvioEl) || new bootstrap.Modal(modalEnvioEl);
+                    bsModalEnvio.hide();
+
+                    // 2. Prepara o modal de feedback
+                    const header = document.getElementById('modalFeedbackHeader');
+                    const icon = document.getElementById('modalFeedbackIcon');
+                    const title = document.getElementById('modalFeedbackMessage');
+                    const detail = document.getElementById('modalFeedbackDetail');
+
+                    if(data.success) {
+                        // Configura Sucesso
+                        header.className = 'modal-header bg-success text-white';
+                        icon.innerHTML = '<i class="ti ti-circle-check text-success"></i>';
+                        title.innerText = 'Mensagem Enviada!';
+                        detail.innerText = 'Sua mensagem personalizada foi entregue ao cliente.';
+                        
+                        if(data.redirect) {
+                            window.open(data.redirect, '_blank');
+                        }
+                    } else {
+                        // Configura Erro
+                        header.className = 'modal-header bg-danger text-white';
+                        icon.innerHTML = '<i class="ti ti-alert-circle text-danger"></i>';
+                        title.innerText = 'Erro no Envio';
+                        detail.innerText = data.error || 'Ocorreu um erro desconhecido.';
+                    }
+
+                    // 3. Abre o modal de feedback
+                    bsModalFeedback = new bootstrap.Modal(modalFeedbackEl);
+                    bsModalFeedback.show();
+                })
+                .catch(err => {
+                    bsModalEnvio = bootstrap.Modal.getInstance(modalEnvioEl);
+                    bsModalEnvio.hide();
+                    alert('Erro grave de conexão: ' + err);
+                })
+                .finally(() => {
+                    btnEnviar.disabled = false;
+                    btnEnviar.innerHTML = originalBtn;
+                });
+            });
+        }
+    });
+    // ⭐️ FUNÇÃO DE DECODIFICAÇÃO (Não Alterada) ⭐️
+    function decodeNewlines(text) {
+        if (!text) return '';
+        // Substitui '\u000D\u000A' (escape JSON para CRLF) por quebra de linha real.
+        // O JavaScript no browser renderizará '\n' como uma quebra de linha.
+        return text.replace(/\\u000D\\u000A/g, '\n').replace(/\\n/g, '\n');
+    }   
     </script>
     {% endblock %}

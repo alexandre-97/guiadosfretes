@@ -1,0 +1,94 @@
+/* improved_styles.css */
+
+:root {
+    --bs-primary: #0d6efd;
+    --bs-primary-rgb: 13, 110, 253;
+    --bs-secondary: #6c757d;
+    --bs-success: #198754;
+    --bs-info: #0dcaf0;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-light: #f8f9fa;
+    --bs-dark: #212529;
+    --bs-font-sans-serif: 'Rubik', sans-serif;
+    --bs-body-bg: #f8f9fa;
+}
+
+body {
+    font-family: var(--bs-font-sans-serif);
+    background-color: var(--bs-body-bg);
+}
+
+.navbar {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 8rem 2rem;
+}
+
+.hero-section h1 {
+    font-weight: 900;
+    font-size: 3.5rem;
+    color: var(--bs-dark);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section .lead {
+    font-size: 1.5rem;
+    color: var(--bs-secondary);
+}
+
+.feature-icon {
+    font-size: 4rem;
+    color: var(--bs-primary);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1);
+}
+
+.benefit-list li {
+    font-size: 1.2rem;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, #0052cc 100%);
+    color: #ffffff;
+    border-radius: 1rem;
+    padding: 5rem;
+}
+
+.cta-section h2 {
+    font-weight: 900;
+}
+
+.footer-simple {
+    background-color: #ffffff;
+    padding: 3rem 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.pricing-card {
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.pricing-card.highlight {
+    border: 2px solid var(--bs-primary);
+    transform: scale(1.05);
+    box-shadow: 0 1rem 3rem rgba(var(--bs-primary-rgb), 0.175) !important;
+}
+
+.trial-alert {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+}

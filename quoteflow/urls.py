@@ -58,6 +58,13 @@ urlpatterns = [
     path('debug-path/', views.debug_view, name='debug_path'),
 
     path('webhook/whatsapp/', views.webhook_whatsapp_view, name='webhook_whatsapp'),
+    
+    # CRUD de Templates de Mensagem
+path('templates-msg/', views.MensagemTemplateListView.as_view(), name='template_msg_list'),
+    path('templates-msg/novo/', views.MensagemTemplateCreateView.as_view(), name='template_msg_create'),
+    path('templates-msg/<int:pk>/editar/', views.MensagemTemplateUpdateView.as_view(), name='template_msg_edit'),
+    path('templates-msg/<int:pk>/excluir/', views.MensagemTemplateDeleteView.as_view(), name='template_msg_delete'),    # AJAX Envio
+    path('ajax/enviar-whatsapp-personalizado/', views.enviar_whatsapp_personalizado_ajax, name='enviar_whatsapp_personalizado_ajax'),    
 ]
 
 if settings.DEBUG:

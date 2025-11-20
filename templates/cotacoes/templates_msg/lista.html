@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Modelos de Mensagem{% endblock %}
+
+{% block page_title %}Modelos de Mensagem (WhatsApp){% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title">Seus Modelos</h4>
+                <a href="{% url 'quoteflow:template_msg_create' %}" class="btn btn-primary">
+                    <i class="ti ti-plus"></i> Novo Modelo
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Prévia do Conteúdo</th>
+                                <th class="text-center">Ativo</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for template in templates %}
+                            <tr>
+                                <td class="fw-bold">{{ template.titulo }}</td>
+                                <td>{{ template.conteudo|truncatechars:60 }}</td>
+                                <td class="text-center">
+                                    {% if template.ativo %}
+                                        <span class="badge bg-success">Sim</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Não</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    <a href="{% url 'quoteflow:template_msg_edit' template.id %}" class="btn btn-sm btn-warning" title="Editar">
+                                        <i class="ti ti-pencil"></i>
+                                    </a>
+                                    <a href="{% url 'quoteflow:template_msg_delete' template.id %}" class="btn btn-sm btn-danger" title="Excluir">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <p class="text-muted">Nenhum modelo de mensagem criado ainda.</p>
+                                    <a href="{% url 'quoteflow:template_msg_create' %}" class="btn btn-outline-primary">Criar Primeiro Modelo</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -13,7 +13,7 @@ import requests
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db import transaction
@@ -30,8 +30,8 @@ import ssl
 from perfil.models import ConfiguracaoEmail, Perfil, Empresa
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core import mail
-from .forms import CotacaoForm, FAQForm, PerfilForm, UpdatePostForm, CadastroForm
-from .models import Cotacao, FAQ, UpdatePost, UserUpdateStatus
+from .forms import CotacaoForm, FAQForm, PerfilForm, UpdatePostForm, CadastroForm, MensagemPersonalizadaForm
+from .models import Cotacao, FAQ, UpdatePost, UserUpdateStatus, MensagemPersonalizada
 from .services import (determinar_rastreio, extrair_dominio_email,
                        inferir_tipo_frete, limpar_html_e_normalizar,
                        parse_cotefrete, parse_guia, parse_transvias_email,
@@ -1695,3 +1695,120 @@ def cadastro_view(request):
     }
     # Todos os caminhos (GET, POST-Sucesso, POST-Falha) agora terminam aqui
     return render(request, 'cotacoes/cadastro.html', context)
+
+VARIAVEIS_MSG = {
+    '{cliente}': 'Nome do Cliente',
+    '{valor}': 'Valor do Frete',
+    '{origem}': 'Cidade de Origem',
+    '{destino}': 'Cidade de Destino',
+    '{saudacao}': 'Bom dia/Boa tarde',
+    '{empresa}': 'Nome da Sua Empresa',
+    '{numero}': 'Número da Cotação'
+}
+
+# --- REPARE: Troquei PermissionRequiredMixin por LoginRequiredMixin ---
+
+class MensagemTemplateListView(LoginRequiredMixin, ListView):
+    model = MensagemPersonalizada
+    template_name = 'cotacoes/templates_msg/lista.html'
+    context_object_name = 'templates'
+    
+    def get_queryset(self):
+        print("DEBUG: Acessando Lista de Templates com LoginRequiredMixin") # Vai aparecer no log
+        return MensagemPersonalizada.objects.filter(empresa=self.request.user.perfil.empresa)
+
+class MensagemTemplateCreateView(LoginRequiredMixin, CreateView):
+    model = MensagemPersonalizada
+    form_class = MensagemPersonalizadaForm
+    template_name = 'cotacoes/templates_msg/form.html'
+    success_url = reverse_lazy('quoteflow:template_msg_list')
+
+    def form_valid(self, form):
+        form.instance.empresa = self.request.user.perfil.empresa
+        messages.success(self.request, "Modelo criado com sucesso!")
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['variaveis'] = VARIAVEIS_MSG
+        context['titulo_pagina'] = "Novo Modelo"
+        return context
+
+class MensagemTemplateUpdateView(LoginRequiredMixin, UpdateView):
+    model = MensagemPersonalizada
+    form_class = MensagemPersonalizadaForm
+    template_name = 'cotacoes/templates_msg/form.html'
+    success_url = reverse_lazy('quoteflow:template_msg_list')
+
+    def get_queryset(self):
+        return MensagemPersonalizada.objects.filter(empresa=self.request.user.perfil.empresa)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['variaveis'] = VARIAVEIS_MSG
+        context['titulo_pagina'] = "Editar Modelo"
+        return context
+
+class MensagemTemplateDeleteView(LoginRequiredMixin, DeleteView):
+    model = MensagemPersonalizada
+    template_name = 'cotacoes/templates_msg/confirm_delete.html'
+    success_url = reverse_lazy('quoteflow:template_msg_list')
+
+    def get_queryset(self):
+        return MensagemPersonalizada.objects.filter(empresa=self.request.user.perfil.empresa)# --- VIEW AJAX ---
+
+@login_required
+@require_POST
+def enviar_whatsapp_personalizado_ajax(request):
+    try:
+        data = json.loads(request.body)
+        cotacao_id = data.get('cotacao_id')
+        mensagem_texto = data.get('mensagem')
+
+        if not mensagem_texto:
+            return JsonResponse({'success': False, 'error': 'Mensagem vazia.'})
+
+        # --- CORREÇÃO FINAL PARA TRATAR O UNICODE LITERAL ---
+        if isinstance(mensagem_texto, str):
+            
+            mensagem_texto = mensagem_texto.replace('\\u000D\\u000A', '\n')
+            
+            # 2. Substitui qualquer \n escapado (\\n) pelo caractere de nova linha do Python (\n)
+            mensagem_texto = mensagem_texto.replace('\\n', '\n')
+            
+            # 3. Normaliza quaisquer CRs (\r) restantes
+            mensagem_texto = mensagem_texto.replace('\r', '\n')
+        
+        if str(cotacao_id).isdigit():
+             cotacao = Cotacao.objects.filter(id=cotacao_id, empresa=request.user.perfil.empresa).first()
+
+        if not cotacao and isinstance(cotacao_id, str):
+            try:
+                numeros = ''.join(filter(str.isdigit, cotacao_id))
+                if numeros:
+                    cotacao = Cotacao.objects.filter(
+                        numero_sequencial_empresa=int(numeros),
+                        empresa=request.user.perfil.empresa
+                    ).first()
+            except:
+                pass
+
+        if not cotacao:
+             return JsonResponse({'success': False, 'error': 'Cotação não encontrada.'})
+
+        # Chama a função principal de envio.
+        resultado = enviar_whatsapp(request, cotacao, mensagem=mensagem_texto) # mensagem_texto agora contém \n real
+
+        # Atualiza status se deu certo
+        if 'Enviado Whats' not in (cotacao.status_envio or ''):
+             cotacao.status_envio = 'Enviado Whats'
+             cotacao.save()
+
+        if isinstance(resultado, dict) and 'redirect' in resultado:
+             return JsonResponse({'success': True, 'redirect': resultado['redirect']})
+        
+        return JsonResponse({'success': True})
+
+    except Exception as e:
+        print(f"ERRO AJAX: {e}")
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

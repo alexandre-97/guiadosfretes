@@ -56,6 +56,12 @@
                     Dashboard
                 </a>
                 {% endif %}
+            <li class="menu-title"><span>CONFIGURAÇÕES</span></li> <li>
+                <a href="{% url 'quoteflow:template_msg_list' %}">
+                    <svg stroke="currentColor" stroke-width="1.5"><use xlink:href="{% static 'assets/svg/_sprite.svg' %}#message-square"></use></svg>
+                    Modelos de Mensagem
+                </a>
+            </li>                            
             <li class="menu-title"><span>RECURSOS</span></li>
             <li>
                 <a href="{% url 'quoteflow:updates_list' %}">
