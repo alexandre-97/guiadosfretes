@@ -366,7 +366,7 @@
             '{valor}': "{{ cotacao.valor_proposta_formatado }}",
             '{origem}': "{{ cotacao.origem|escapejs }}",
             '{destino}': "{{ cotacao.destino|escapejs }}",
-            '{empresa}': "{{ cotacao.empresa.nome|escapejs }}",
+            '{empresa}': "{{ cotacao.empresa.nome_full|default:cotacao.empresa.nome|escapejs }}",
             '{saudacao}': new Date().getHours() < 12 ? 'Bom dia' : (new Date().getHours() < 18 ? 'Boa tarde' : 'Boa noite'),
             '{link}': "https://{{ request.get_host }}{% url 'quoteflow:cotacao_edit' cotacao.proposta_id_url %}", // Deixamos por compatibilidade, mas não será usada
             '{numero}': "{{ cotacao.proposta_id_url|escapejs }}" // NOVO: Variável da proposta (EXI123QF)
